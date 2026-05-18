@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samir Verb Academy - V1, V2, V3 with Kurdish Meanings</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter & Noto Sans Arabic for beautiful Kurdish typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+            background-color: #090d16; /* Deep dark eye-soothing slate blue */
+            color: #f1f5f9;
+        }
+        
+        /* Smooth transitions */
+        .transition-all-300 {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Glassmorphism custom styling optimized for Dark Mode */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Dark Theme Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Pulse Animations for Interactive Learning */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.3; }
+            50% { transform: scale(1.05); opacity: 0.6; }
+            100% { transform: scale(0.95); opacity: 0.3; }
+        }
+        .pulse-active {
+            animation: pulse-ring 2s infinite ease-in-out;
+        }
+        
+        .font-extraboldUnderline {
+            text-decoration: underline;
+            text-decoration-color: #6366f1;
+            text-underline-offset: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-indigo-600 selection:text-white pb-12">
+
+    <!-- Toast Notification System -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 bg-slate-900 border border-slate-800 text-white px-5 py-3 rounded-xl shadow-2xl max-w-sm">
+        <span id="toast-icon" class="text-indigo-400"><i class="fas fa-info-circle"></i></span>
+        <p id="toast-message" class="text-sm font-medium"></p>
+    </div>
+
+    <!-- Navigation / Header Bar -->
+    <header class="sticky top-0 z-40 w-full bg-slate-950/85 backdrop-blur-md text-white border-b border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fas fa-graduation-cap text-lg"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">Sameer Verb Academy</span>
+                    <span class="hidden sm:inline-block ml-2 text-xs text-indigo-300 font-semibold px-2 py-0.5 rounded-full bg-indigo-950/50 border border-indigo-800/50">V1 • V2 • V3</span>
+                </div>
+                <span class="hidden lg:inline-block ml-2 text-xs text-indigo-200/50 border-l border-slate-800 pl-3 font-sans">
+                    <i class="fas fa-code mr-1"></i> Created by Sameer Maaroof
+                </span>
+            </div>
+            
+            <nav class="flex items-center gap-2 sm:gap-4">
+                <button onclick="switchTab('dictionary')" id="tab-btn-dictionary" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 bg-indigo-600 text-white shadow-md shadow-indigo-600/20">
+                    <i class="fas fa-book-open mr-2"></i>فەرھەنگ
+                </button>
+                <button onclick="switchTab('trainer')" id="tab-btn-trainer" class="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 text-slate-400 hover:text-white hover:bg-slate-900">
+                    <i class="fas fa-gamepad mr-2"></i>ڕاھێنان
+                </button>
+                <button onclick="openModal('addVerbModal')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 flex items-center gap-1 shadow-lg shadow-emerald-700/20">
+                    <i class="fas fa-plus"></i><span class="hidden md:inline">زیادکردن</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area Wrapper -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        
+        <!-- Hero Section (Translated into Sorani Kurdish) -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-6 sm:p-10 text-white mb-8 border border-slate-800/60 shadow-xl relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(99,102,241,0.15),transparent_60%)]"></div>
+            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="max-w-2xl text-right md:order-2" dir="rtl">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans">شارەزابە لە کاتەکانی زمانی ئینگلیزی</h1>
+                    <p class="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed font-sans">
+                        فێربە، خۆت تاقی بکەرەوە لەسەر گرنگترین کارە ڕێک و ناڕێکەکانی زمانی ئینگلیزی.  <strong class="text-indigo-400">(V1)</strong>، ڕابردووی سادە <strong class="text-indigo-400">(V2)</strong>، و ڕابردووی تەواو <strong class="text-indigo-400">(V3)</strong> بە واتای شیرینی کوردی سۆرانی، لەگەڵ ڕاهێنانی گرامەر لەسەر ئاستی ڕستەکان
+                    </p>
+                </div>
+                
+                <!-- Stats Quickboard (Kurdish labels) -->
+                <div class="flex flex-wrap gap-4 w-full md:w-auto md:order-1" dir="rtl">
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10 flex-1 md:flex-initial min-w-[110px] text-center">
+                        <span class="block text-2xl sm:text-3xl font-bold text-indigo-300" id="stat-total">100+</span>
+                        <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold font-sans">کۆی کارەکان</span>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10 flex-1 md:flex-initial min-w-[110px] text-center">
+                        <span class="block text-2xl sm:text-3xl font-bold text-amber-400" id="stat-favorites">0</span>
+                        <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold font-sans">دڵخوازەکان</span>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10 flex-1 md:flex-initial min-w-[110px] text-center">
+                        <span class="block text-2xl sm:text-3xl font-bold text-emerald-400" id="stat-streak">0 🔥</span>
+                        <span class="text-[11px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold font-sans">بەرزترین زنجیرە</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: VERB DICTIONARY & DIRECTORY -->
+        <section id="section-dictionary" class="space-y-6">
+            
+            <!-- Filter Bar & Search Panel -->
+            <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-md border border-slate-800/60 space-y-4">
+                <div class="flex flex-col lg:flex-row gap-4 justify-between items-stretch lg:items-center">
+                    
+                    <!-- Search Field -->
+                    <div class="relative flex-1">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="search-input" oninput="filterVerbs()" placeholder="گەڕان بەدوای کار، ڕابردوو، یاخود واتا بە کوردی..." class="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none text-right font-sans text-white focus:bg-slate-950" dir="rtl" />
+                    </div>
+
+                    <!-- Filter Badges -->
+                    <div class="flex flex-wrap gap-2 items-center justify-start md:justify-end" dir="rtl">
+                        <button onclick="setFilter('all')" id="filter-all" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all-300 bg-indigo-600 text-white shadow-md shadow-indigo-600/20 font-sans">
+                            گشت کارەکان
+                        </button>
+                        <button onclick="setFilter('irregular')" id="filter-irregular" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all-300 bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-850 font-sans">
+                            کارە ناڕێکەکان (Irregular)
+                        </button>
+                        <button onclick="setFilter('regular')" id="filter-regular" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all-300 bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-850 font-sans">
+                            کارە ڕێکەکان (Regular)
+                        </button>
+                        <button onclick="setFilter('favorites')" id="filter-favorites" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all-300 bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-850 flex items-center gap-1.5 font-sans">
+                            <i class="fas fa-star text-amber-500"></i> دڵخوازەکان
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Alphabet Filter -->
+                <div class="border-t border-slate-800/80 pt-3">
+                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 text-right font-sans" dir="rtl">بازدان بەپێی پیتی دەستپێک</p>
+                    <div class="flex flex-wrap gap-1.5 overflow-x-auto pb-1 justify-start md:justify-end" id="alphabet-container" dir="ltr">
+                        <!-- Alphabets injected dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verb Grid / List Container -->
+            <div class="relative">
+                <div class="flex items-center justify-between mb-4 px-1">
+                    <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2 font-sans" dir="rtl">
+                        <span>فەرھەنگی کارەکان</span>
+                        <span id="verb-count-badge" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded-full font-bold font-sans">120 دۆزرایەوە</span>
+                    </h2>
+                    
+                    <div class="flex gap-2 text-xs">
+                        <button onclick="changeView('grid')" id="view-grid-btn" class="p-2 rounded-lg bg-indigo-950 border border-indigo-800/50 text-indigo-400" title="بینینی تۆڕی">
+                            <i class="fas fa-th-large text-sm"></i>
+                        </button>
+                        <button onclick="changeView('table')" id="view-table-btn" class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800" title="بینینی خشتەیی">
+                            <i class="fas fa-list text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GRID VIEW CONTAINER -->
+                <div id="dictionary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Cards will be dynamically rendered here -->
+                </div>
+
+                <!-- TABLE VIEW CONTAINER -->
+                <div id="dictionary-table-wrapper" class="hidden overflow-x-auto bg-slate-900/40 rounded-2xl border border-slate-800 shadow-xl">
+                    <table class="w-full text-left border-collapse" dir="rtl">
+                        <thead>
+                            <tr class="bg-slate-950 text-slate-200 text-xs sm:text-sm font-sans text-right border-b border-slate-800">
+                                <th class="p-4 font-bold text-right">کار / چاوگ (V1)</th>
+                                <th class="p-4 font-bold text-right">ڕابردووی سادە (V2)</th>
+                                <th class="p-4 font-bold text-right">ڕابردووی تەواو (V3)</th>
+                                <th class="p-4 font-bold text-right">واتا بە کوردی</th>
+                                <th class="p-4 font-bold text-center">جۆر</th>
+                                <th class="p-4 font-bold text-center">کردارەکان</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dictionary-table-body" class="divide-y divide-slate-800/60 text-slate-300">
+                            <!-- Dynamic Table Rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State Block -->
+                <div id="empty-state" class="hidden text-center py-16 bg-slate-900/30 rounded-2xl border border-slate-800 shadow-sm max-w-md mx-auto mt-6">
+                    <div class="text-indigo-400 text-5xl mb-3">
+                        <i class="far fa-folder-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-200 font-sans">ھیچ کارێک نەدۆزرایەوە</h3>
+                    <p class="text-slate-400 text-sm mt-1 px-6 font-sans">نەمانتوانی ھیچ کارێک بدۆزینەوە کە بگونجێت لەگەڵ گەڕانەکەتدا. تکایە گەڕانەکەت بگۆڕە!</p>
+                    <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow-md font-sans">
+                        دووبارە ڕێکخستنەوە
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: INTERACTIVE PRACTICE TRAINER -->
+        <section id="section-trainer" class="hidden max-w-2xl mx-auto space-y-6">
+            
+            <!-- Game Board Setup -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-800 relative overflow-hidden">
+                <!-- Inner decoration background -->
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 w-36 h-36 bg-indigo-500/10 rounded-full blur-2xl"></div>
+                
+                <!-- Practice Header Info -->
+                <div class="flex justify-between items-center pb-4 mb-6 border-b border-slate-800/80">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-3.5 w-3.5 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-indigo-600"></span>
+                        </span>
+                        <span class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-slate-400 font-sans">گۆڕەپانی ڕاھێنان</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs text-slate-500 block font-medium font-sans">نمرەی ئەم خولە</span>
+                        <span class="text-sm font-extrabold text-indigo-400" id="quiz-score-display">0 ڕاست</span>
+                    </div>
+                </div>
+
+                <!-- Quiz Interactive Container -->
+                <div id="quiz-ready-panel" class="space-y-6">
+                    <!-- Current Target Verb Hero Display -->
+                    <div class="bg-slate-950/80 border border-slate-850 rounded-2xl p-6 text-center shadow-inner relative">
+                        <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 text-[10px] font-extrabold uppercase tracking-wide border border-indigo-900/40" id="quiz-verb-type">Irregular</span>
+                        <button onclick="playQuizVerbAudio()" class="absolute top-3 right-3 text-indigo-400 hover:text-indigo-300 hover:scale-110 transition-transform p-1" title="بیخوێنەرەوە">
+                            <i class="fas fa-volume-up text-lg"></i>
+                        </button>
+                        
+                        <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest block mb-1">شێوازی چاوگ (V1)</span>
+                        <h3 class="text-3xl sm:text-4xl font-black text-white" id="quiz-current-verb">Write</h3>
+                        <p class="text-slate-300 text-sm mt-2 font-sans" id="quiz-current-meaning" dir="rtl">واتا: نووسین</p>
+                        
+                        <!-- Grammar Sentence Target Box -->
+                        <div id="quiz-grammar-sentence-box" class="hidden mt-4 p-4 bg-slate-900/90 rounded-xl border border-indigo-950 text-indigo-200">
+                            <p class="text-xs text-indigo-400 font-bold mb-1.5 font-sans text-right" dir="rtl"><i class="fas fa-pen-fancy ml-1"></i> ڕستەی نموونەیی بۆشایی پڕبکەرەوە:</p>
+                            <p id="quiz-grammar-sentence-en" class="text-base font-mono font-bold text-white tracking-wide text-left mb-1" dir="ltr"></p>
+                            <p id="quiz-grammar-sentence-ku" class="text-xs text-slate-400 font-sans text-right" dir="rtl"></p>
+                        </div>
+                    </div>
+
+                    <!-- Input Grid Form -->
+                    <div class="space-y-4">
+                        <!-- Past Simple (V2) Field -->
+                        <div id="v2-input-wrapper">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 text-right font-sans" dir="rtl">ڕابردووی سادە (V2)</label>
+                            <div class="relative">
+                                <input type="text" id="quiz-input-v2" autocomplete="off" placeholder="شێوازی ڕابردوو بنووسە (بۆ نموونە: wrote)" class="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none font-medium text-white placeholder-slate-500" />
+                                <div id="v2-feedback" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-xl hidden">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Past Participle (V3) Field -->
+                        <div id="v3-input-wrapper">
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 text-right font-sans" dir="rtl">ڕابردووی تەواو (V3)</label>
+                            <div class="relative">
+                                <input type="text" id="quiz-input-v3" autocomplete="off" placeholder="شێوازی ڕابردووی تەواو بنووسە (بۆ نموونە: written)" class="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none font-medium text-white placeholder-slate-500" />
+                                <div id="v3-feedback" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-xl hidden">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action and Helper Mechanics -->
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        <!-- Submit Answer Button -->
+                        <button onclick="checkQuizAnswer()" id="quiz-submit-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition-all-300 shadow-lg shadow-indigo-600/30 text-sm sm:text-base font-sans">
+                            وەڵامەکەم تاقی بکەرەوە <i class="fas fa-check-circle ml-2"></i>
+                        </button>
+                        
+                        <!-- Next Verb/Skip -->
+                        <button onclick="skipQuizVerb()" id="quiz-skip-btn" class="bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-200 font-semibold py-3 px-5 rounded-xl transition-all text-sm font-sans">
+                            پەڕاندن / دواتر
+                        </button>
+
+                        <!-- Hint Tooltip/Helper -->
+                        <button onclick="revealHint()" class="bg-amber-950/40 hover:bg-amber-950/80 text-amber-400 border border-amber-900/40 font-semibold py-3 px-5 rounded-xl transition-all text-sm font-sans" title="نیشاندانی یارمەتی">
+                            💡 یارمەتی
+                        </button>
+                    </div>
+
+                    <!-- Hint Display Bubble -->
+                    <div id="quiz-hint-box" class="hidden bg-amber-950/40 border border-amber-900/30 p-4 rounded-xl text-xs text-amber-300 space-y-1 text-right font-sans" dir="rtl">
+                        <p id="quiz-hint-v2-text"></p>
+                        <p id="quiz-hint-v3-text"></p>
+                    </div>
+
+                    <!-- Correct Display Board (Hidden until check is completed) -->
+                    <div id="quiz-result-board" class="hidden border rounded-2xl p-4 transition-all-300">
+                        <div class="flex items-start gap-3">
+                            <span id="result-status-icon" class="text-2xl"></span>
+                            <div class="text-right w-full" dir="rtl">
+                                <h4 class="font-bold text-sm font-sans" id="result-status-title">کارێکی نایابە!</h4>
+                                <div class="text-xs text-slate-400 mt-2 space-y-1" id="quiz-result-details">
+                                    <p class="font-sans">وەڵامی ڕاست لێرەیە:</p>
+                                    <p class="font-semibold text-slate-300 font-sans">چاوگ (V1): <span id="correct-v1" class="text-indigo-400 font-mono"></span></p>
+                                    <p class="font-semibold text-slate-300 font-sans">ڕابردووی سادە (V2): <span id="correct-v2" class="text-indigo-400 font-mono"></span></p>
+                                    <p class="font-semibold text-slate-300 font-sans">ڕابردووی تەواو (V3): <span id="correct-v3" class="text-indigo-400 font-mono"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Streak Counter -->
+                <div class="mt-6 flex items-center justify-between p-3 bg-slate-950/80 rounded-xl border border-slate-900">
+                    <span class="text-xs font-semibold text-slate-400 font-sans">زنجیرەی وەڵامە ڕاستەکان:</span>
+                    <span class="text-sm font-extrabold text-amber-500 flex items-center gap-1">
+                        <i class="fas fa-fire animate-bounce"></i> <span id="quiz-current-streak">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Quiz Settings / Customizer Card -->
+            <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-800/60 text-slate-200 space-y-3">
+                <h4 class="font-bold text-sm text-right font-sans" dir="rtl"><i class="fas fa-sliders-h ml-2 text-indigo-400"></i>ڕێکخستنی شێوازی تاقیکردنەوە</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1" dir="rtl">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 font-sans">لیستی کارەکان</label>
+                        <select id="quiz-pool-select" onchange="initQuiz()" class="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500 font-sans text-white">
+                            <option value="all">گشت کارەکان</option>
+                            <option value="irregular">تەنھا کارە ناڕێکەکان</option>
+                            <option value="regular">تەنھا کارە ڕێکەکان</option>
+                            <option value="favorites">تەنھا دڵخوازەکانم</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 font-sans">شێوازی تاقیکردنەوە</label>
+                        <select id="quiz-mode-select" onchange="initQuiz()" class="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500 font-sans text-white">
+                            <option value="word">ڕاهێنانی وشەیی (V2 & V3)</option>
+                            <option value="grammar">ڕاهێنانی ڕستەی گرامەر</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 font-sans">هەستیاری بە پیت</label>
+                        <select id="quiz-case-select" class="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500 font-sans text-white">
+                            <option value="no">پیتی گەورە و بچوک گرنگ نییە</option>
+                            <option value="yes">گرنگیدان بە پیتی گەورە و بچوک</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer with Creator Attribution -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 py-6 border-t border-slate-900 text-center text-xs text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p class="font-sans">Samir Verb Academy &copy; 2026. گشت مافەکان پارێزراون.</p>
+        <p class="font-medium text-slate-400 flex items-center gap-1.5 font-sans">
+            <span>Sameer Maaroof بنیادنەر و دیزاینەر؛</span>
+            <span class="text-rose-500"><i class="fas fa-heart animate-pulse"></i></span>
+        </p>
+    </footer>
+
+    <!-- CREATE CUSTOM VERB MODAL -->
+    <div id="addVerbModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+            <!-- Modal Overlay -->
+            <div onclick="closeModal('addVerbModal')" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity"></div>
+
+            <!-- Modal Body -->
+            <div class="bg-slate-900 rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all my-8 max-w-lg w-full z-10 border border-slate-800">
+                <div class="bg-slate-950 px-6 py-4 text-white flex justify-between items-center border-b border-slate-800">
+                    <h3 class="font-extrabold text-lg flex items-center gap-2 font-sans">
+                        <i class="fas fa-plus text-emerald-400"></i> زیادکردنی کارێکی تایبەت
+                    </h3>
+                    <button onclick="closeModal('addVerbModal')" class="text-slate-400 hover:text-white text-lg transition-transform hover:scale-110">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <form id="add-verb-form" onsubmit="handleCustomVerbSubmit(event)" class="p-6 space-y-4 text-right" dir="rtl">
+                    <!-- Base Infinitive (V1) -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 font-sans">چاوگ (V1) *</label>
+                        <input type="text" id="add-v1" required placeholder="بۆ نموونە: Speak" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-sans text-white placeholder-slate-600" dir="ltr" />
+                    </div>
+
+                    <!-- Past Simple (V2) -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 font-sans">ڕابردووی سادە (V2) *</label>
+                        <input type="text" id="add-v2" required placeholder="بۆ نموونە: Spoke" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-sans text-white placeholder-slate-600" dir="ltr" />
+                    </div>
+
+                    <!-- Past Participle (V3) -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 font-sans">ڕابردووی تەواو (V3) *</label>
+                        <input type="text" id="add-v3" required placeholder="بۆ نموونە: Spoken" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-sans text-white placeholder-slate-600" dir="ltr" />
+                    </div>
+
+                    <!-- Type Selection -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 font-sans">جۆری کارەکە</label>
+                        <div class="grid grid-cols-2 gap-2" dir="rtl">
+                            <label class="border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-start gap-2 cursor-pointer hover:bg-slate-800/40">
+                                <input type="radio" name="add-type" value="irregular" checked class="text-indigo-600 focus:ring-indigo-500 ml-2" />
+                                <span class="text-xs font-bold text-slate-300 font-sans">ناڕێک (Irregular)</span>
+                            </label>
+                            <label class="border border-slate-800 bg-slate-950 rounded-xl p-3 flex items-center justify-start gap-2 cursor-pointer hover:bg-slate-800/40">
+                                <input type="radio" name="add-type" value="regular" class="text-indigo-600 focus:ring-indigo-500 ml-2" />
+                                <span class="text-xs font-bold text-slate-300 font-sans">ڕێک (Regular)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Meaning / Notes -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 font-sans">واتای کارەکە بە کوردی</label>
+                        <input type="text" id="add-meaning" placeholder="بۆ نموونە: قسەکردن" class="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm font-sans text-white placeholder-slate-600" />
+                    </div>
+
+                    <!-- Action panel -->
+                    <div class="flex gap-3 pt-3 border-t border-slate-800" dir="ltr">
+                        <button type="button" onclick="closeModal('addVerbModal')" class="flex-1 py-3 px-4 bg-slate-950 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-bold rounded-xl transition-all-300 font-sans">
+                            پاشگەزبوونەوە
+                        </button>
+                        <button type="submit" class="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-emerald-600/20 font-sans">
+                            پاشەکەوتکردنی کار
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO VOICES SETTING PANEL (Loaded dynamically) -->
+    <div id="audio-settings-box" class="hidden"></div>
+
+    <!-- JAVASCRIPT LOGIC & COMPREHENSIVE VERB DATABASE WITH KURDISH MEANINGS -->
+    <script>
+        // Complete database of verbs with localized Kurdish meanings (Sorani) and customized context sentences
+        const DEFAULT_VERBS = [
+            // Irregular Verbs with example sentences
+            { v1: "be", v2: "was/were", v3: "been", type: "irregular", meaning: "بوون، بوونی ھەیە", s2_en: "She ___ happy yesterday.", s2_ku: "دوێنێ ئەو دڵخۆش بوو.", s3_en: "They have ___ friends for years.", s3_ku: "ئەوان بۆ چەندین ساڵە هاوڕێن." },
+            { v1: "beat", v2: "beat", v3: "beaten", type: "irregular", meaning: "لێدان، بەزاندن، شکست پێھێنان", s2_en: "Our team ___ them in the final.", s2_ku: "تیمەکەمان لە یاری کۆتاییدا لێی بەزاندن.", s3_en: "He has never ___ me at chess.", s3_ku: "ئەو هەرگیز لە شەترەنجدا منی نەبەزاندووە." },
+            { v1: "become", v2: "became", v3: "become", type: "irregular", meaning: "بوون بە، گۆڕان بۆ", s2_en: "He ___ a doctor last year.", s2_ku: "ئەو ساڵی ڕابردوو بوو بە دکتۆر.", s3_en: "The weather has ___ very cold.", s3_ku: "کەشوهەواکە زۆر سارد بووە." },
+            { v1: "begin", v2: "began", v3: "begun", type: "irregular", meaning: "دەستپێکردن، دەستپێکردنی کارێک", s2_en: "The film ___ at 8 o'clock.", s2_ku: "فیلمەکە کاتژمێر ٨ی شەو دەستی پێکرد.", s3_en: "The show has already ___.", s3_ku: "پێشاندانی بەرنامەکە پێشتر دەستی پێکردووە." },
+            { v1: "bend", v2: "bent", v3: "bent", type: "irregular", meaning: "چەمانەوە، چەقاندن", s2_en: "He ___ the iron bar easily.", s2_ku: "ئەو بە ئاسانی شیشە ئاسنەکەی چەماندەوە.", s3_en: "The tree branch has ___ under the snow.", s3_ku: "لقی دارەکە لەژێر بەفرەکەدا چەماوەتەوە." },
+            { v1: "bet", v2: "bet", v3: "bet", type: "irregular", meaning: "گرەو کردن، گرەو لەسەر کردن", s2_en: "I ___ ten dollars on that horse.", s2_ku: "من دە دۆلارم گرەو لەسەر ئەو ئەسپە کرد.", s3_en: "She has ___ all her money.", s3_ku: "ئەو هەموو پارەکەی خۆی گرەو کردووە." },
+            { v1: "bite", v2: "bit", v3: "bitten", type: "irregular", meaning: "گازگرتن، گاز لێدان بە ددان", s2_en: "A dog ___ him on the leg.", s2_ku: "سەگێک گازی لە قاچی گرت.", s3_en: "He was ___ by mosquitoes.", s3_ku: "ئەو لەلایەن مێشوولەوە گازی لێگیرابوو." },
+            { v1: "blow", v2: "blew", v3: "blown", type: "irregular", meaning: "فووکردن، ھەڵکردنی با", s2_en: "The wind ___ strongly last night.", s2_ku: "شەوی ڕابردوو با بە توندی هەڵیکرد.", s3_en: "The candles were ___ out.", s3_ku: "مۆمەکان فوویان لێکرا و کوژانەوە." },
+            { v1: "break", v2: "broke", v3: "broken", type: "irregular", meaning: "شکاندن، پارچەپارچە بوون", s2_en: "He ___ the window with a ball.", s2_ku: "ئەو بە تۆپێک پەنجەرەکەی شکاند.", s3_en: "My phone screen is ___.", s3_ku: "شاشەی مۆبایلەکەم شکاوە." },
+            { v1: "bring", v2: "brought", v3: "brought", type: "irregular", meaning: "ھێنان، پێشکەشکردن", s2_en: "She ___ some food for us.", s2_ku: "ئەو هەندێک خواردنی بۆ هێناین.", s3_en: "Have you ___ the documents?", s3_ku: "ئایا بەڵگەنامەکانت هێناوە؟" },
+            { v1: "build", v2: "built", v3: "built", type: "irregular", meaning: "دروستکردن، بونیادنان", s2_en: "They ___ this house in 1995.", s2_ku: "ئەوان ئەم خانووەیان لە ساڵی ١٩٩٥ دروستکرد.", s3_en: "The castle was ___ on a hill.", s3_ku: "قەڵاکە لەسەر گردێک بونیاد نرابوو." },
+            { v1: "buy", v2: "bought", v3: "bought", type: "irregular", meaning: "کڕین، کڕینی شتومەک", s2_en: "I ___ a new laptop yesterday.", s2_ku: "من دوێنێ لاپتۆپێکی نوێم کڕی.", s3_en: "She has ___ fresh fruits.", s3_ku: "ئەو هەندێک میوەی تازەی کڕیوە." },
+            { v1: "catch", v2: "caught", v3: "caught", type: "irregular", meaning: "گرتن، ڕاوکردن، ڕاوپێکردن", s2_en: "The police ___ the thief quickly.", s2_ku: "پۆلیس بە خێرایی دزەکەی گرت.", s3_en: "I have ___ a bad cold.", s3_ku: "من تووشی هەڵامەتێکی خراپ بووم." },
+            { v1: "choose", v2: "chose", v3: "chosen", type: "irregular", meaning: "ھەڵبژاردن، دیاریکردن لە نێوان چەند شتێکدا", s2_en: "She ___ the blue dress.", s2_ku: "ئەو جلە شینەکەی هەڵبژارد.", s3_en: "They have ___ a new leader.", s3_ku: "ئەوان سەرکردەیەکی نوێیان هەڵبژاردووە." },
+            { v1: "come", v2: "came", v3: "come", type: "irregular", meaning: "ھاتن، نزیکبوونەوە", s2_en: "My uncle ___ to visit us.", s2_ku: "مامم هات بۆ سەردانیکردنمان.", s3_en: "Winter has ___ early this year.", s3_ku: "ئەمساڵ زستان زوو هاتووە." },
+            { v1: "cost", v2: "cost", v3: "cost", type: "irregular", meaning: "تێچوون، نرخ پێبوون", s2_en: "My ticket ___ fifty dollars.", s2_ku: "بلیتەکەم پەنجا دۆلاری تێچوو.", s3_en: "Repairing the car has ___ a lot.", s3_ku: "چاککردنەوەی ئۆتۆمبێلەکە تێچوویەکی زۆری هەبووە." },
+            { v1: "cut", v2: "cut", v3: "cut", type: "irregular", meaning: "بڕین، لەتکردن بە چەقۆ", s2_en: "She ___ the cake into pieces.", s2_ku: "ئەو کێکەکەی بە چەند پارچەیەک بڕی.", s3_en: "I have ___ my finger.", s3_ku: "من پەنجەی خۆم بڕی (بریندار کرد)." },
+            { v1: "deal", v2: "dealt", v3: "dealt", type: "irregular", meaning: "مامەڵەکردن، ڕێککەوتن کردن", s2_en: "He ___ with the issue professionally.", s2_ku: "ئەو بە شێوەیەکی پرۆفیشناڵ مامەڵەی لەگەڵ کێشەکە کرد.", s3_en: "We have ___ with this firm before.", s3_ku: "ئێمە پێشتریش مامەڵەمان لەگەڵ ئەم کۆمپانیایە کردووە." },
+            { v1: "dig", v2: "dug", v3: "dug", type: "irregular", meaning: "کۆڵین، ھەڵکۆڵینی زەوی", s2_en: "They ___ a deep hole in the garden.", s2_ku: "ئەوان چاڵێکی قووڵیان لە باخچەکەدا کۆڵی.", s3_en: "He has ___ up all the old plants.", s3_ku: "ئەو هەموو ڕووەکە کۆنەکانی هەڵکۆڵیوە." },
+            { v1: "do", v2: "did", v3: "done", type: "irregular", meaning: "ئەنجامدان، کارکردن", s2_en: "We ___ our homework last night.", s2_ku: "ئێمە شەوی ڕابردوو ئەرکی ماڵەوەمان ئەنجامدا.", s3_en: "She has already ___ the dishes.", s3_ku: "ئەو پێشتر قاپەکانی شوشتووە (ئەنجامداوە)." },
+            { v1: "draw", v2: "drew", v3: "drawn", type: "irregular", meaning: "کێشان، کێشانی وێنە بە پێنووس", s2_en: "She ___ a beautiful sketch.", s2_ku: "ئەو کێشانێکی وێنەیی جوانی کێشا.", s3_en: "He has ___ a line on the board.", s3_ku: "ئەو هێڵێکی لەسەر تەختەکە کێشاوە." },
+            { v1: "drink", v2: "drank", v3: "drunk", type: "irregular", meaning: "خواردنەوە، خواردنەوەی شلەمەنی", s2_en: "He ___ a glass of cold water.", s2_ku: "ئەو پەرداخێک ئاوی ساردی خواردەوە.", s3_en: "They have ___ all the orange juice.", s3_ku: "ئەوان هەموو شەربەتی پرتەقاڵەکەیان خواردووەتەوە." },
+            { v1: "drive", v2: "drove", v3: "driven", type: "irregular", meaning: "لێخوڕین، لێخوڕینی ئۆتۆمبێل", s2_en: "She ___ all night to get here.", s2_ku: "ئەو هەموو شەو ئۆتۆمبێلی لێخوڕی بۆ گەیشتن بە لێرە.", s3_en: "Have you ever ___ a sports car?", s3_ku: "ئایا تا ئێستا ئۆتۆمبێلێکی وەرزشیت لێخوڕیوە؟" },
+            { v1: "eat", v2: "ate", v3: "eaten", type: "irregular", meaning: "خواردن، خواردنی خۆراک", s2_en: "We ___ delicious Kurdish food.", s2_ku: "ئێمە خواردنێکی کوردی بەتاممان خوارد.", s3_en: "I have already ___ breakfast.", s3_ku: "من پێشتر نانی بەیانیم خواردووە." },
+            { v1: "fall", v2: "fell", v3: "fallen", type: "irregular", meaning: "کەوتن، کەوتنەخوارەوە لە بەرزایی", s2_en: "Leaves ___ from the trees in autumn.", s2_ku: "گەڵاکان لە پایزدا لە دارەکانەوە کەوتن.", s3_en: "Snow has ___ on the mountains.", s3_ku: "بەفر لەسەر چیاکان باریوە (کەوتووە)." },
+            { v1: "feed", v2: "fed", v3: "fed", type: "irregular", meaning: "پێدانی خۆراک، تێرکردن", s2_en: "She ___ the cats in the morning.", s2_ku: "ئەو بەیانیان نانی دا بە پشیلەکان.", s3_en: "Have you ___ the baby yet?", s3_ku: "ئایا هێشتا خواردنت بە منداڵەکە داوە؟" },
+            { v1: "feel", v2: "felt", v3: "felt", type: "irregular", meaning: "ھەستکردن، درک پێکردن", s2_en: "I ___ sick yesterday morning.", s2_ku: "من دوێنێ بەیانی هەستم بە نەخۆشی دەکرد.", s3_en: "She has always ___ proud of you.", s3_ku: "ئەو هەمیشە هەستی بە شانازی کردووە بە تۆوە." },
+            { v1: "fight", v2: "fought", v3: "fought", type: "irregular", meaning: "شەڕکردن، بەرگریکردن لە خۆ", s2_en: "They ___ bravely for their land.", s2_ku: "ئەوان ئازایانە شەڕیان کرد بۆ خاکەکەیان.", s3_en: "He has ___ many challenges in life.", s3_ku: "ئەو شەڕی لەگەڵ زۆر ئاستەنگی کردووە لە ژیاندا." },
+            { v1: "find", v2: "found", v3: "found", type: "irregular", meaning: "دۆزینەوە، پەیداکردنی شتی ونبوو", s2_en: "She ___ her lost key under the sofa.", s2_ku: "ئەو کلیلی ونبووەکەی خۆی لەژێر قەنەفەکەدا دۆزییەوە.", s3_en: "Scientists have ___ a new planet.", s3_ku: "زاناکان هەسارەیەکی نوێیان دۆزیوەتەوە." },
+            { v1: "fly", v2: "flew", v3: "flown", type: "irregular", meaning: "فڕین، گەشتکردن بە ئاسماندا", s2_en: "The birds ___ south for winter.", s2_ku: "باڵندەکان بۆ زستان بەرەو باشوور فڕین.", s3_en: "I have never ___ in a helicopter.", s3_ku: "من هەرگیز بە هێلیکۆپتەر نەفڕیوم." },
+            { v1: "forget", v2: "forgot", v3: "forgotten", type: "irregular", meaning: "بیرچوونەوە، لەبیرکردنی شتێک", s2_en: "I ___ to call you yesterday.", s2_ku: "من دوێنێم لەبیرچوو تەلەفۆنت بۆ بکەم.", s3_en: "She has ___ her password.", s3_ku: "ئەو پاسۆردەکەی خۆی لەبیرکردووە." },
+            { v1: "forgive", v2: "forgave", v3: "forgiven", type: "irregular", meaning: "بەخشین، لێخۆشبوون، لێبوردن", s2_en: "He ___ me for my mistake.", s2_ku: "ئەو لە هەڵەکەم خۆشبوو (لێم بورد).", s3_en: "I have ___ him for everything.", s3_ku: "من لە هەموو شتێک خۆشبووم لێی." },
+            { v1: "freeze", v2: "froze", v3: "frozen", type: "irregular", meaning: "بەستن، بەستن لەبەر سەرما", s2_en: "The water ___ during the night.", s2_ku: "ئاوەکە لە ماوەی شەودا بەستی.", s3_en: "The lake was completely ___.", s3_ku: "دەریاچەکە بە تەواوی بەستبووی." },
+            { v1: "get", v2: "got", v3: "got/gotten", type: "irregular", meaning: "بەدەستھێنان, وەرگرتن, پەیداکردن", s2_en: "I ___ a nice gift on my birthday.", s2_ku: "من دیارییەکی خۆشم وەرگرت لە ڕۆژی لەدایکبوونمدا.", s3_en: "She has ___ much better at English.", s3_ku: "ئەو لە زمانی ئینگلیزیدا زۆر باشتر بووە." },
+            { v1: "give", v2: "gave", v3: "given", type: "irregular", meaning: "بەخشین، پێدان، بەسەرزمانەوە دان", s2_en: "He ___ me his favorite book.", s2_ku: "ئەو کتێبە دڵخوازەکەی خۆی پێدام.", s3_en: "The prize was ___ to the winner.", s3_ku: "خەڵاتەکە بەخشرا بە براوەکە." },
+            { v1: "go", v2: "went", v3: "gone", type: "irregular", meaning: "ڕۆیشتن، چوون بەرەو شوێنێک", s2_en: "They ___ to Erbil last Saturday.", s2_ku: "ئەوان شەممەی ڕابردوو چوون بۆ هەولێر.", s3_en: "She has ___ to the market.", s3_ku: "ئەو چووە بۆ مارکێتەکە." },
+            { v1: "grow", v2: "grew", v3: "grown", type: "irregular", meaning: "گەشەکردن، گەورەبوون، ڕواندن", s2_en: "The trees ___ quickly this spring.", s2_ku: "دارەکان ئەم بەهارە بە خێرایی گەشەیان کرد.", s3_en: "He has ___ taller than his father.", s3_ku: "ئەو لە باوکی باڵابەرزتر بووە (گەشەی کردووە)." },
+            { v1: "hang", v2: "hung", v3: "hung", type: "irregular", meaning: "ھەڵواسین، بەستنەوە بە بەرزایی", s2_en: "She ___ the portrait on the wall.", s2_ku: "ئەو تابلۆکەی بە دیوارەکەدا هەڵواسی.", s3_en: "The clothes were ___ out to dry.", s3_ku: "جلەکان بۆ وشکبوونەوە هەڵواسرابوون." },
+            { v1: "have", v2: "had", v3: "had", type: "irregular", meaning: "ھەبوون، خاوەندارێتی کردن لە شتێک", s2_en: "We ___ a small party last week.", s2_ku: "ئێمە هەفتەی ڕابردوو ئاهەنگێکی بچووکمان هەبوو.", s3_en: "She has ___ many issues with her car.", s3_ku: "ئەو چەندین کێشەی لەگەڵ ئۆتۆمبێلەکەی هەبووە." },
+            { v1: "hear", v2: "heard", v3: "heard", type: "irregular", meaning: "بیستن، بیستنی دەنگ", s2_en: "I ___ a strange noise last night.", s2_ku: "من شەوی ڕابردوو دەنگێکی سەیرم بیست.", s3_en: "Have you ___ from Samir recently?", s3_ku: "ئایا لەم دواییانەدا هەواڵی سەمیرت بیستووە؟" },
+            { v1: "hide", v2: "hid", v3: "hidden", type: "irregular", meaning: "شاردنەوە، جێنشین کردنی خۆ", s2_en: "The cat ___ behind the curtain.", s2_ku: "پشیلەکە لە پشت پەردەکە خۆی شاردەوە.", s3_en: "The treasure is ___ in the forest.", s3_ku: "گنجەکە لە دارستانەکەدا شاردراوەتەوە." },
+            { v1: "hit", v2: "hit", v3: "hit", type: "irregular", meaning: "لێدان، پێوەدان بە توندی", s2_en: "He ___ the ball with the bat.", s2_ku: "ئەو بە دارەکە کێشای بە تۆپەکەدا.", s3_en: "The car has ___ the wall.", s3_ku: "ئۆتۆمبێلەکە کێشاویەتی بە دیوارەکەدا." },
+            { v1: "hold", v2: "held", v3: "held", type: "irregular", meaning: "گرتن، ڕاگرتن، دەستگرتن بە شتێکەوە", s2_en: "She ___ the baby in her arms.", s2_ku: "ئەو منداڵەکەی لە باوەشیدا ڕاگرت.", s3_en: "The meeting will be ___ tomorrow.", s3_ku: "کۆبوونەوەکە سبەی ئەنجام دەدرێت (ڕادەگیرێت)." },
+            { v1: "hurt", v2: "hurt", v3: "hurt", type: "irregular", meaning: "ئازاردان، بریندارکردن، ئازار گەیاندن", s2_en: "I ___ my elbow playing tennis.", s2_ku: "من لەکاتی تێنس یاریکردندا ئەنیشکی خۆم بریندارکرد.", s3_en: "Nobody was ___ in the accident.", s3_ku: "هیچ کەسێک لە ڕووداوەکەدا ئازاری پێ نەگەیشت." },
+            { v1: "keep", v2: "kept", v3: "kept", type: "irregular", meaning: "پاراستن، ھێشتنەوە، گلدانەوە", s2_en: "He ___ his promise to help us.", s2_ku: "ئەو بەڵێنەکەی خۆی پاراست بۆ یارمەتیدانمان.", s3_en: "She has ___ all our secrets.", s3_ku: "ئەو هەموو نهێنییەکانی ئێمەی پاراستووە." },
+            { v1: "know", v2: "knew", v3: "known", type: "irregular", meaning: "زانین، ناسین، ئاگاداربوون", s2_en: "I ___ the answer to that question.", s2_ku: "من وەڵامی ئەو پرسیارەم دەزانی.", s3_en: "He has been ___ as a kind person.", s3_ku: "ئەو وەک کەسێکی میهرەبان ناسراوە." },
+            { v1: "lay", v2: "laid", v3: "laid", type: "irregular", meaning: "دانان، دانان بە نەرمی", s2_en: "She ___ the book on the table.", s2_ku: "ئەو کتێبەکەی لەسەر مێزەکە دانا.", s3_en: "The bricks were ___ perfectly.", s3_ku: "خشتەکان بە تەواوی دانرابوون." },
+            { v1: "lead", v2: "led", v3: "led", type: "irregular", meaning: "ڕێبەریکردن، سەرکردایەتیکردن", s2_en: "He ___ the team to victory.", s2_ku: "ئەو سەرکردایەتی تیمی کرد بەرەو سەرکەوتن.", s3_en: "The path has ___ us to the river.", s3_ku: "ڕێگاکە ئێمەی برد (ڕێبەریکرد) بۆ لای ڕووبارەکە." },
+            { v1: "leave", v2: "left", v3: "left", type: "irregular", meaning: "جێھێشتن، بەجێھێشتن، دەرچوون", s2_en: "We ___ the office at 5 PM.", s2_ku: "ئێمە کاتژمێر ٥ی ئێوارە ئۆفیسەکەمان جێهێشت.", s3_en: "She has ___ her keys at home.", s3_ku: "ئەو کلیلەکانی لە ماڵەوە جێهێشتووە." },
+            { v1: "lend", v2: "lent", v3: "lent", type: "irregular", meaning: "بەقەرزدان، بە خواستن دان بە کەسێک", s2_en: "I ___ him my pen during class.", s2_ku: "من لە کاتی وانەکەدا پێنووسەکەم بە قەرز پێدا.", s3_en: "She has ___ her car to her sister.", s3_ku: "ئەو ئۆتۆمبێلەکەی بە خواستن داوەتە خوشکەکەی." },
+            { v1: "let", v2: "let", v3: "let", type: "irregular", meaning: "ڕێگەپێدان، ھێشتنەوەی کارێک ببێت", s2_en: "They ___ us enter the library.", s2_ku: "ئەوان ڕێگەیان پێداین بچینە ناو کتێبخانەکەوە.", s3_en: "He has always ___ me make my decisions.", s3_ku: "ئەو هەمیشە ڕێگەی پێداوم بڕیارەکانم بدەم." },
+            { v1: "lie", v2: "lay", v3: "lain", type: "irregular", meaning: "پاڵکەوتن، درۆکردن", s2_en: "She ___ on the grass to look at clouds.", s2_ku: "ئەو لەسەر گیاکە پاڵکەوت بۆ تەماشاکردنی هەورەکان.", s3_en: "The book has ___ there for a week.", s3_ku: "کتێبەکە بۆ ماوەی هەفتەیەکە لەوێ پاڵکەوتووە (دانراوە)." },
+            { v1: "lose", v2: "lost", v3: "lost", type: "irregular", meaning: "دۆڕاندن، ونکردن، لەدەستدان", s2_en: "Our team ___ the match yesterday.", s2_ku: "تیمەکەمان دوێنێ یارییەکەی دۆڕاند.", s3_en: "I have ___ my passport.", s3_ku: "من پاسپۆرتەکەم ونکردووە." },
+            { v1: "make", v2: "made", v3: "made", type: "irregular", meaning: "دروستکردن، چاککردن، بونیادنان", s2_en: "She ___ a delicious cake.", s2_ku: "ئەو کێکێکی بەتامی دروستکرد.", s3_en: "The tables are ___ of wood.", s3_ku: "مێزەکان لە دار دروستکراون." },
+            { v1: "meet", v2: "met", v3: "met", type: "irregular", meaning: "چاوپێکەوتن، یەکتربینین، بە یەک گەیشتن", s2_en: "I ___ Samir at the library.", s2_ku: "من لە کتێبخانە چاوم بە سەمیر کەوت.", s3_en: "Have you ___ the new teacher yet?", s3_ku: "ئایا هێشتا چاوت بە مامۆستا نوێیەکە کەوتووە؟" },
+            { v1: "pay", v2: "paid", v3: "paid", type: "irregular", meaning: "پارەدان، پێدانی قەرز یان پارەی شت", s2_en: "I ___ the bill this morning.", s2_ku: "من ئەم بەیانییە پارەی پسوولەکەم دا.", s3_en: "We have ___ all the debts.", s3_ku: "ئێمە هەموو قەرزەکانمان داوەتەوە." },
+            { v1: "put", v2: "put", v3: "put", type: "irregular", meaning: "دانان، جێگیرکردنی شتێک", s2_en: "She ___ the keys in her bag.", s2_ku: "ئەو کلیلەکانی لە ناو جانتاکەیدا دانا.", s3_en: "He has ___ the box on the shelf.", s3_ku: "ئەو سندوقەکەی لەسەر ڕەفەکە داناوە." },
+            { v1: "read", v2: "read", v3: "read", type: "irregular", meaning: "خوێندنەوە، تێگەیشتن لە نووسراو", s2_en: "I ___ a very interesting story.", s2_ku: "من چیرۆکێکی زۆر سەرنجڕاکێشم خوێندەوە.", s3_en: "Have you ___ today's newspaper?", s3_ku: "ئایا ڕۆژنامەی ئەمڕۆت خوێندووەتەوە؟" },
+            { v1: "ride", v2: "rode", v3: "ridden", type: "irregular", meaning: "سواربوون، سەرکەوتن لەسەر ئەسپ یان پاسکیل", s2_en: "He ___ his bicycle to school.", s2_ku: "ئەو بە پاسکیل سوار بوو بەرەو قوتابخانە.", s3_en: "She has ___ horses since childhood.", s3_ku: "ئەو لە منداڵییەوە سواری ئەسپ بووە." },
+            { v1: "ring", v2: "rang", v3: "rung", type: "irregular", meaning: "زەنگ لێدان، دەنگھاتنی تەلەفۆن", s2_en: "The school bell ___ early today.", s2_ku: "زەنگی قوتابخانە ئەمڕۆ زوو لێدرا.", s3_en: "The telephone has ___ three times.", s3_ku: "تەلەفۆنەکە سێ جار زەنگی لێداوە." },
+            { v1: "run", v2: "ran", v3: "run", type: "irregular", meaning: "ڕاکردن، بە غار چوون", s2_en: "She ___ to catch the bus.", s2_ku: "ئەو ڕایکرد بۆ گەیشتن بە پاسەکە.", s3_en: "He has ___ five miles today.", s3_ku: "ئەو ئەمڕۆ پێنج میڵ ڕایکردووە." },
+            { v1: "say", v2: "said", v3: "said", type: "irregular", meaning: "گوتن، وتن، ئاخافتن", s2_en: "He ___ that he was busy.", s2_ku: "ئەو وتی کە سەرقاڵە.", s3_en: "She has already ___ everything.", s3_ku: "ئەو پێشتر هەموو شتێکی وتووە." },
+            { v1: "see", v2: "saw", v3: "seen", type: "irregular", meaning: "بینین، تەماشاکردن بە چاو", s2_en: "We ___ a great film last night.", s2_ku: "ئێمە شەوی ڕابردوو فیلمێکی زۆر باشمان بینی.", s3_en: "I have never ___ a lion in person.", s3_ku: "من هەرگیز لە نزیکەوە شێرم نەبینیوە." },
+            { v1: "sell", v2: "sold", v3: "sold", type: "irregular", meaning: "فرۆشتن، گۆڕینەوەی شت بە پارە", s2_en: "He ___ his old car last week.", s2_ku: "ئەو هەفتەی ڕابردوو ئۆتۆمبێلە کۆنەکەی خۆی فرۆشت.", s3_en: "All tickets have been ___.", s3_ku: "هەموو بلیتەکان فرۆشراون." },
+            { v1: "send", v2: "sent", v3: "sent", type: "irregular", meaning: "ناردن، ڕەوانەکردن", s2_en: "She ___ an email to her boss.", s2_ku: "ئەو نامەیەکی ئەلیکترۆنی بۆ بەڕێوەبەرەکەی نارد.", s3_en: "The package was ___ yesterday.", s3_ku: "سندوقەکە دوێنێ ناردرا." },
+            { v1: "shake", v2: "shook", v3: "shaken", type: "irregular", meaning: "ڕاوەشاندن، لرزین، جوڵاندن", s2_en: "We ___ hands after the meeting.", s2_ku: "ئێمە لەدوای کۆبوونەوەکە تەوقەمان کرد (دەستمان ڕاوەشاند).", s3_en: "The building was ___ by the earthquake.", s3_ku: "بنیادەکە بەهۆی بوومەلەرزەکەوە لرزا (ڕاوەشێنرا)." },
+            { v1: "shine", v2: "shone", v3: "shone", type: "irregular", meaning: "درەوشانەوە، شەوقدانەوە", s2_en: "The sun ___ brightly all afternoon.", s2_ku: "خۆر لە تەواوی دوانیوەڕۆدا بە گەشی درەوشایەوە.", s3_en: "Her eyes have ___ with joy.", s3_ku: "چاوەکانی بەهۆی خۆشییەوە درەوشاونەتەوە." },
+            { v1: "shoot", v2: "shot", v3: "shot", type: "irregular", meaning: "تەقەکردن، ھاویشتنی فیشەک", s2_en: "The hunter ___ a deer in the forest.", s2_ku: "ڕاوچییەکە ئاسکێکی لە دارستانەکەدا پێکاوە (تەقەی لێکرد).", s3_en: "He was ___ in the shoulder.", s3_ku: "ئەو لە شانیدا پێکرابوو." },
+            { v1: "show", v2: "showed", v3: "shown", type: "irregular", meaning: "نیشاندان، ئاشکراکردن", s2_en: "She ___ us her graduation photos.", s2_ku: "ئەو وێنەکانی دەرچوونی خۆی نیشان داین.", s3_en: "The results will be ___ tomorrow.", s3_ku: "ئەنجامەکان سبەی نیشان دەدرێن." },
+            { v1: "shut", v2: "shut", v3: "shut", type: "irregular", meaning: "داخستن، داخستنی دەرگا یان پەنجەرە", s2_en: "He ___ the window because of rain.", s2_ku: "ئەو پەنجەرەکەی داخست بەهۆی بارانەکەوە.", s3_en: "Please keep the door ___.", s3_ku: "تکایە دەرگاکە بە داخراوی بهێڵەرەوە." },
+            { v1: "sing", v2: "sang", v3: "sung", type: "irregular", meaning: "گۆرانی وتن، ئاواز خوێندن", s2_en: "She ___ a beautiful Kurdish song.", s2_ku: "ئەو گۆرانییەکی کوردی جوانی چڕی (وت).", s3_en: "They have ___ together in concerts.", s3_ku: "ئەوان پێکەوە لە کۆنسێرتەکاندا گۆرانییان وتووە." },
+            { v1: "sink", v2: "sank", v3: "sunk", type: "irregular", meaning: "نوقمبوون، ڕۆچوون لە ئاودا", s2_en: "The old ship ___ in the ocean.", s2_ku: "کەشتییە کۆنەکە لە زەریادا نوقم بوو.", s3_en: "The stone has ___ to the bottom.", s3_ku: "بەردەکە نوقم بووە بۆ بنەکە." },
+            { v1: "sit", v2: "sat", v3: "sat", type: "irregular", meaning: "دانیشتن، حەوانەوە لەسەر کورسی", s2_en: "We ___ under the tree to rest.", s2_ku: "ئێمە لەژێر دارەکەدا دانیشتین بۆ حەوانەوە.", s3_en: "She has ___ in that chair for hours.", s3_ku: "ئەو بۆ ماوەی چەندین کاتژمێرە لەسەر ئەو کورسییە دانیشتووە." },
+            { v1: "sleep", v2: "slept", v3: "slept", type: "irregular", meaning: "نوستن، خەوتن، ئارام گرتن", s2_en: "I ___ very well last night.", s2_ku: "من شەوی ڕابردوو زۆر باش نووستم.", s3_en: "The baby has ___ for three hours.", s3_ku: "منداڵەکە بۆ ماوەی سێ کاتژمێرە خەوتووە." },
+            { v1: "speak", v2: "spoke", v3: "spoken", type: "irregular", meaning: "قسەکردن، گفتوگۆکردن بە دەنگ", s2_en: "I ___ to Sameer Maaroof yesterday.", s2_ku: "من دوێنێ لەگەڵ سەمیر مەعروف قسەم کرد.", s3_en: "English is ___ all over the world.", s3_ku: "زمانی ئینگلیزی لە هەموو جیهاندا قسەی پێدەکرێت." },
+            { v1: "spend", v2: "spent", v3: "spent", type: "irregular", meaning: "خەرجکردن، بەسەربردنی کات یاخود پارە", s2_en: "They ___ all their holidays in Sulaymaniyah.", s2_ku: "ئەوان هەموو پشووەکانیان لە سلێمانی بەسەربرد.", s3_en: "I have ___ a lot of money today.", s3_ku: "من ئەمڕۆ پارەیەکی زۆرم خەرج کردووە." },
+            { v1: "stand", v2: "stood", v3: "stood", type: "irregular", meaning: "ڕاوەستان، وەستان لەسەر پێ", s2_en: "We ___ in the queue for an hour.", s2_ku: "ئێمە بۆ ماوەی کاتژمێرێک لە نۆرەدا وەستاین.", s3_en: "He has ___ there since morning.", s3_ku: "ئەو لە بەیانییەوە لەوێ وەستاوە." },
+            { v1: "steal", v2: "stole", v3: "stolen", type: "irregular", meaning: "دزین، بردنی شتی خەڵک بە دزی", s2_en: "Someone ___ his bicycle yesterday.", s2_ku: "دوێنێ کەسێک پاسکیلەکەی دزی.", s3_en: "My wallet has been ___.", s3_ku: "جزدانەکەم دزراوە." },
+            { v1: "swim", v2: "swam", v3: "swum", type: "irregular", meaning: "مەلەکردن، خۆدانە نێو ئاو", s2_en: "They ___ in the lake yesterday afternoon.", s2_ku: "ئەوان دوێنێ دوانیوەڕۆ لە دەریاچەکەدا مەلەیان کرد.", s3_en: "He has ___ across the wide river.", s3_ku: "ئەو بە مەلەکردن بەسەر ڕووبارە پانەکەدا پەڕیوەتەوە." },
+            { v1: "take", v2: "took", v3: "taken", type: "irregular", meaning: "بردن، گرتن، وەرگرتنی شتێک", s2_en: "She ___ some beautiful photos.", s2_ku: "ئەو هەندێک وێنەی جوانی گرت (بردی).", s3_en: "He has ___ his daily medicine.", s3_ku: "ئەو دەرمانە ڕۆژانەکەی خۆی خواردووە (وەرگرتووە)." },
+            { v1: "teach", v2: "taught", v3: "taught", type: "irregular", meaning: "فێرکردن، وانەوتنەوە", s2_en: "He ___ me how to write code.", s2_ku: "ئەو فێری کردم چۆن کۆد بنووسم.", s3_en: "She has ___ English for ten years.", s3_ku: "ئەو بۆ ماوەی دە ساڵە وانەی ئینگلیزی دەڵێتەوە." },
+            { v1: "tear", v2: "tore", v3: "torn", type: "irregular", meaning: "دڕاندن، پارچەکردنی کاغەز یان جل", s2_en: "He accidently ___ his shirt on a nail.", s2_ku: "ئەو بە ڕێکەوت کراسەکەی بە بزمارێک دڕاند.", s3_en: "The letter was already ___.", s3_ku: "نامەکە پێشتر دڕابوو." },
+            { v1: "tell", v2: "told", v3: "told", type: "irregular", meaning: "پێوتن، گێڕانەوەی ڕووداوێک", s2_en: "She ___ us an amazing story.", s2_ku: "ئەو چیرۆکێکی سەرسوڕهێنەری پێ وتین.", s3_en: "I have already ___ him the truth.", s3_ku: "من پێشتر ڕاستییەکەم پێ وتووە." },
+            { v1: "think", v2: "thought", v3: "thought", type: "irregular", meaning: "بیرکردنەوە، پشکنین لە مێشکدا", s2_en: "I ___ about the answer for a long time.", s2_ku: "من بۆ ماوەیەکی درێژ بیرم لە وەڵامەکە کردەوە.", s3_en: "She has always ___ highly of you.", s3_ku: "ئەو هەمیشە بە بەرزی بیر لە تۆ دەکاتەوە (پەسندت دەکات)." },
+            { v1: "throw", v2: "threw", v3: "thrown", type: "irregular", meaning: "ھاویشتن، فڕێدان بە دەست", s2_en: "He ___ the ball back to the kids.", s2_ku: "ئەو تۆپەکەی فڕێدایەوە بۆ منداڵەکان.", s3_en: "The rubbish should be ___ in the bin.", s3_ku: "پاشماوەکان پێویستە فڕێبدرێنە ناو تەنەکە خۆڵەکەوە." },
+            { v1: "understand", v2: "understood", v3: "understood", type: "irregular", meaning: "تێگەیشتن، درک پێکردن بە مانا", s2_en: "I ___ the math lesson clearly.", s2_ku: "من لە وانەی بیرکاری بە ڕوونی تێگەیشتم.", s3_en: "They have ___ our conditions.", s3_ku: "ئەوان لە مەرجەکانی ئێمە تێگەیشتوون." },
+            { v1: "wear", v2: "wore", v3: "worn", type: "irregular", meaning: "لەبەرکردن، پۆشینی جلوبەرگ", s2_en: "She ___ a traditional Kurdish dress.", s2_ku: "ئەو جلێکی ڕەسەنی کوردی لەبەرکرد.", s3_en: "He has ___ those shoes for a year.", s3_ku: "ئەو بۆ ماوەی ساڵێکە ئەو پێڵاوانە لەبەر دەکات (دەپۆشێت)." },
+            { v1: "win", v2: "won", v3: "won", type: "irregular", meaning: "بردنەوە، بەدەستھێنانی سەرکەوتن", s2_en: "Our school team ___ the cup.", s2_ku: "تیمی قوتابخانەکەمان جامی بردەوە.", s3_en: "She has ___ three gold medals.", s3_ku: "ئەو سێ مەدالیای زێڕی بەدەستهێناوە." },
+            { v1: "write", v2: "wrote", v3: "written", type: "irregular", meaning: "نووسین، کێشانی پیتەکان لەسەر کاغەز", s2_en: "She ___ a letter to her friend.", s2_ku: "ئەو نامەیەکی بۆ هاوڕێکەی نووسی.", s3_en: "I have ___ a new essay.", s3_ku: "من وتارێکی نوێم نووسیوە." },
+
+            // Regular Verbs with example sentences
+            { v1: "accept", v2: "accepted", v3: "accepted", type: "regular", meaning: "قبوڵکردن، ڕازیبوون بە شتێک", s2_en: "They ___ our invitation gladly.", s2_ku: "ئەوان بە خۆشحاڵییەوە بانگهێشتەکەمان قبوڵ کرد.", s3_en: "The offer has been ___.", s3_ku: "پێشنیارەکە قبوڵ کراوە." },
+            { v1: "ask", v2: "asked", v3: "asked", type: "regular", meaning: "پرسیارکردن، داواکاری پێشکەشکردن", s2_en: "I ___ the teacher a question.", s2_ku: "من پرسیارێکم لە مامۆستاکە کرد.", s3_en: "We have ___ for permission.", s3_ku: "ئێمە داوای مۆڵەتمان کردووە." },
+            { v1: "clean", v2: "cleaned", v3: "cleaned", type: "regular", meaning: "پاککردنەوە، لادانی پیسی", s2_en: "He ___ his room yesterday morning.", s2_ku: "ئەو دوێنێ بەیانی ژوورەکەی خۆی پاککردەوە.", s3_en: "The kitchen has been ___.", s3_ku: "مەتبەخەکە پاککراوەتەوە." },
+            { v1: "cook", v2: "cooked", v3: "cooked", type: "regular", meaning: "چێشت لێنان، ئامادەکردنی خۆراک بە گەرمی", s2_en: "She ___ delicious food for lunch.", s2_ku: "ئەو خواردنێکی بەتامی بۆ نانی نیوەڕۆ لێنا (ئامادەکرد).", s3_en: "Dinner has already been ___.", s3_ku: "شێو پێشتر لێنراوە." },
+            { v1: "explain", v2: "explained", v3: "explained", type: "regular", meaning: "ڕوونکردنەوە، شیکردنەوەی بابەت", s2_en: "The teacher ___ the grammar clearly.", s2_ku: "مامۆستاکە گرامەرەکەی بە ڕوونی ڕوونکردەوە.", s3_en: "The problem has been ___ to them.", s3_ku: "کێشەکە بۆ ئەوان ڕوونکراوەتەوە." },
+            { v1: "help", v2: "helped", v3: "helped", type: "regular", meaning: "یارمەتیدان، دەستگرتنی یەکێک", s2_en: "She ___ her sister with homework.", s2_ku: "ئەو لە ئەرکەکانی قوتابخانەدا یارمەتی خوشکەکەی دا.", s3_en: "Thank you, you have ___ me a lot.", s3_ku: "سوپاس، تۆ زۆر یارمەتی منت داوە." },
+            { v1: "jump", v2: "jumped", v3: "jumped", type: "regular", meaning: "بازدان، خۆ فڕێدانە سەرەوە", s2_en: "The dog ___ over the high fence.", s2_ku: "سەگەکە بەسەر پەرژینە بەرزەکەدا بازی دا.", s3_en: "He has ___ from the highest platform.", s3_ku: "ئەو لە بەرزترین سەکۆوە بازی داوە." },
+            { v1: "like", v2: "liked", v3: "liked", type: "regular", meaning: "حەزلێکردن، بە دڵ بوون، پەسەندکردن", s2_en: "I ___ the Kurdish food in that restaurant.", s2_ku: "من خواردنی کوردی ئەو چێشتخانەیەم بە دڵ بوو.", s3_en: "She has always ___ this film.", s3_ku: "ئەو هەمیشە ئەم فیلمەی بە دڵ بووە." },
+            { v1: "look", v2: "looked", v3: "looked", type: "regular", meaning: "تەماشاکردن، چاو لێکردن", s2_en: "We ___ at the beautiful stars.", s2_ku: "ئێمە تەماشای ئەستێرە جوانەکانمان کرد.", s3_en: "He has ___ everywhere for his key.", s3_ku: "ئەو بۆ کلیلەکەی لە هەموو شوێنێک گەڕاوە (تەماشای کردووە)." },
+            { v1: "need", v2: "needed", v3: "needed", type: "regular", meaning: "پێویستبوون، ناچاربوون بە شتێک", s2_en: "I ___ your advice on this topic.", s2_ku: "من پێویستم بە ئامۆژگاری تۆ هەبوو لەسەر ئەم بابەتە.", s3_en: "They have ___ a lot of help.", s3_ku: "ئەوان پێویستیان بە یارمەتییەکی زۆر هەبووە." },
+            { v1: "play", v2: "played", v3: "played", type: "regular", meaning: "یاریکردن، کات بەسەربردن بە کایەوە", s2_en: "The children ___ games all afternoon.", s2_ku: "منداڵەکان هەموو دوانیوەڕۆکە یارییان کرد.", s3_en: "He has ___ football for many years.", s3_ku: "ئەو بۆ ماوەی چەندین ساڵە یاری تۆپی پێ دەکات (کردوویەتی)." },
+            { v1: "start", v2: "started", v3: "started", type: "regular", meaning: "دەستپێکردن، دەرچوون بۆ کارێک", s2_en: "The rain ___ suddenly.", s2_ku: "بارانەکە لەپڕ دەستی پێکرد.", s3_en: "We have ___ our new business.", s3_ku: "ئێمە کارە بازرگانییە نوێیەکەمان دەستپێکردووە." },
+            { v1: "talk", v2: "talked", v3: "talked", type: "regular", meaning: "گفتوگۆکردن، ئاڵوگۆڕی قسە", s2_en: "We ___ about the project last night.", s2_ku: "ئێمە شەوی ڕابردوو باسی پڕۆژەکەمان کرد.", s3_en: "She has ___ to Samir about it.", s3_ku: "ئەو لەگەڵ سەمیر باسی ئەو بابەتەی کردووە." },
+            { v1: "use", v2: "used", v3: "used", type: "regular", meaning: "بەکارھێنان، سوود لێوەرگرتن", s2_en: "She ___ olive oil for cooking.", s2_ku: "ئەو زەیتی زەیتوونی بەکارهێنا بۆ چێشتلێنان.", s3_en: "Have you ever ___ this program before?", s3_ku: "ئایا تا ئێستا پێشتر ئەم بەرنامەیەت بەکارهێناوە؟" },
+            { v1: "visit", v2: "visited", v3: "visited", type: "regular", meaning: "سەردانیکردن، چوون بۆ لای کەسێک یان شوێنێک", s2_en: "They ___ their grandparents last week.", s2_ku: "ئەوان هەفتەی ڕابردوو سەردانی داپیرە و باپیریان کرد.", s3_en: "She has ___ many historical sites in Erbil.", s3_ku: "ئەو سەردانی زۆر شوێنی مێژوویی کردووە لە هەولێر." },
+            { v1: "walk", v2: "walked", v3: "walked", type: "regular", meaning: "پیاسەکردن، ڕۆیشتن بە پێ", s2_en: "We ___ in the park yesterday.", s2_ku: "ئێمە دوێنێ لە پارکەکەدا پیاسەمان کرد.", s3_en: "He has ___ all the way home.", s3_ku: "ئەو بە درێژایی ڕێگاکە بە پێ بۆ ماڵەوە ڕۆیشتووە." },
+            { v1: "want", v2: "wanted", v3: "wanted", type: "regular", meaning: "ویستن، ئارەزووکردن", s2_en: "I ___ to buy a new car.", s2_ku: "من دەمویست ئۆتۆمبێلێکی نوێ بکڕم.", s3_en: "They have always ___ to learn English.", s3_ku: "ئەوان هەمیشە ویستوویانە فێری ئینگلیزی ببن." },
+            { v1: "work", v2: "worked", v3: "worked", type: "regular", meaning: "کارکردن، ئەنجامدانی ئەرکێک", s2_en: "She ___ late last night.", s2_ku: "ئەو شەوی ڕابردوو تا درەنگ کاری کرد.", s3_en: "He has ___ in this office for five years.", s3_ku: "ئەو بۆ ماوەی پێنج ساڵە لەم ئۆفیسەدا کاری کردووە." }
+        ];
+
+        // Global State variables
+        let verbs = [];
+        let favorites = [];
+        let currentFilter = 'all'; // 'all' | 'irregular' | 'regular' | 'favorites'
+        let currentLetter = ''; // Quick jump active alphabet letter
+        let viewMode = 'grid'; // 'grid' | 'table'
+        let currentQuizVerb = null;
+        let currentQuizTargetTense = 'both'; // 'both' | 'v2' | 'v3'
+        let streak = 0;
+        let correctAnswersCount = 0;
+        let customVerbs = [];
+
+        // TTS Speech synthesis setup
+        let synthesisVoice = null;
+
+        window.onload = function() {
+            initData();
+            initSpeech();
+            buildAlphabetJump();
+            renderVerbs();
+            initQuiz();
+            updateStatsCounters();
+        };
+
+        // Initialize lists and localstorage state variables
+        function initData() {
+            // Load custom verbs from localstorage
+            const storedCustom = localStorage.getItem('custom_english_verbs');
+            if (storedCustom) {
+                try {
+                    customVerbs = JSON.parse(storedCustom);
+                } catch(e) {
+                    customVerbs = [];
+                }
+            }
+            
+            // Combine default and custom verbs
+            verbs = [...DEFAULT_VERBS, ...customVerbs];
+            
+            // Sort by alphabet V1 ascending
+            verbs.sort((a, b) => a.v1.toLowerCase().localeCompare(b.v1.toLowerCase()));
+
+            // Load favorites
+            const storedFavorites = localStorage.getItem('favorite_english_verbs');
+            if (storedFavorites) {
+                try {
+                    favorites = JSON.parse(storedFavorites);
+                } catch(e) {
+                    favorites = [];
+                }
+            }
+        }
+
+        // Initialize speech options
+        function initSpeech() {
+            if ('speechSynthesis' in window) {
+                // Fetch English voices
+                const setVoice = () => {
+                    const voices = window.speechSynthesis.getVoices();
+                    // Prefer English US, UK or general English
+                    synthesisVoice = voices.find(v => v.lang === 'en-US') || 
+                                     voices.find(v => v.lang.startsWith('en')) || 
+                                     voices[0];
+                };
+                setVoice();
+                if (window.speechSynthesis.onvoiceschanged !== undefined) {
+                    window.speechSynthesis.onvoiceschanged = setVoice;
+                }
+            }
+        }
+
+        // TTS action handler
+        function speak(text) {
+            if (!('speechSynthesis' in window)) {
+                showToast("سیستەمی خوێندنەوەی دەنگی لەم وێبگەرەدا پاڵپشتی ناکرێت.", "fa-exclamation-triangle");
+                return;
+            }
+            
+            // Cancel current speaking instantly for snappiness
+            window.speechSynthesis.cancel();
+            
+            // Make sure multiple verbs separated by slashes (like was/were) are cleanly spoken
+            const cleanText = text.replace('/', ' or ');
+            
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            if (synthesisVoice) {
+                utterance.voice = synthesisVoice;
+            }
+            utterance.rate = 0.85; // slightly slower for better pedagogical clarity
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Generate A-Z elements inside alphabet-container
+        function buildAlphabetJump() {
+            const container = document.getElementById('alphabet-container');
+            container.innerHTML = '';
+            
+            // Reset button
+            const resetBtn = document.createElement('button');
+            resetBtn.innerText = 'گشت پیتەکان';
+            resetBtn.onclick = () => selectLetter('');
+            resetBtn.className = `px-2.5 py-1 text-xs rounded-lg font-bold font-sans transition-all ${!currentLetter ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300'}`;
+            resetBtn.id = 'letter-reset';
+            container.appendChild(resetBtn);
+
+            // Let's find letters present in currently loaded verbs
+            const availableLetters = new Set(verbs.map(v => v.v1.charAt(0).toLowerCase()));
+
+            for (let i = 97; i <= 122; i++) {
+                const char = String.fromCharCode(i);
+                const hasVerbs = availableLetters.has(char);
+                const btn = document.createElement('button');
+                btn.innerText = char.toUpperCase();
+                
+                if (hasVerbs) {
+                    btn.onclick = () => selectLetter(char);
+                    btn.className = `px-2.5 py-1 text-xs rounded-lg font-bold transition-all ${currentLetter === char ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800'}`;
+                } else {
+                    btn.disabled = true;
+                    btn.className = "px-2.5 py-1 text-xs rounded-lg font-bold text-slate-600 bg-slate-950/40 border border-slate-950/10 cursor-not-allowed";
+                }
+                container.appendChild(btn);
+            }
+        }
+
+        function selectLetter(letter) {
+            currentLetter = letter;
+            buildAlphabetJump();
+            renderVerbs();
+        }
+
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            
+            // Update active styling on tabs
+            const filters = ['all', 'irregular', 'regular', 'favorites'];
+            filters.forEach(f => {
+                const btn = document.getElementById(`filter-${f}`);
+                if (f === filterType) {
+                    btn.className = "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all-300 bg-indigo-600 text-white shadow-md shadow-indigo-600/20 font-sans";
+                } else {
+                    btn.className = "px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all-300 bg-slate-900 text-slate-300 border border-slate-800 hover:bg-slate-850 font-sans";
+                }
+            });
+
+            renderVerbs();
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            currentLetter = '';
+            setFilter('all');
+            buildAlphabetJump();
+        }
+
+        function changeView(mode) {
+            viewMode = mode;
+            const gridBtn = document.getElementById('view-grid-btn');
+            const tableBtn = document.getElementById('view-table-btn');
+            
+            if (mode === 'grid') {
+                gridBtn.className = "p-2 rounded-lg bg-indigo-950 border border-indigo-800/50 text-indigo-400";
+                tableBtn.className = "p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800";
+                document.getElementById('dictionary-grid').classList.remove('hidden');
+                document.getElementById('dictionary-table-wrapper').classList.add('hidden');
+            } else {
+                tableBtn.className = "p-2 rounded-lg bg-indigo-950 border border-indigo-800/50 text-indigo-400";
+                gridBtn.className = "p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:bg-slate-800";
+                document.getElementById('dictionary-table-wrapper').classList.remove('hidden');
+                document.getElementById('dictionary-grid').classList.add('hidden');
+            }
+            renderVerbs();
+        }
+
+        // Helper to format or generate example sentences
+        function getVerbSentences(v) {
+            return {
+                s2_en: v.s2_en || `He ___ (${v.v1}) last night.`,
+                s2_ku: v.s2_ku || `ئەو دوێنێ شەو ئەم کارەی ئەنجامدا.`,
+                s3_en: v.s3_en || `They have already ___ (${v.v1}) today.`,
+                s3_ku: v.s3_ku || `ئەوان پێشتر ئەمڕۆ کارەکەیان ئەنجامداوە.`
+            };
+        }
+
+        // Toggle card examples accordion
+        function toggleCardExample(button) {
+            const container = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            if (container.classList.contains('hidden')) {
+                container.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                container.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Core rendering mechanism
+        function renderVerbs() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const gridContainer = document.getElementById('dictionary-grid');
+            const tableBody = document.getElementById('dictionary-table-body');
+            const emptyState = document.getElementById('empty-state');
+            const counterBadge = document.getElementById('verb-count-badge');
+
+            // Apply filters logic
+            let filtered = verbs.filter(v => {
+                // Category filter
+                if (currentFilter === 'irregular' && v.type !== 'irregular') return false;
+                if (currentFilter === 'regular' && v.type !== 'regular') return false;
+                if (currentFilter === 'favorites' && !favorites.includes(v.v1)) return false;
+
+                // Alphabet quick jump filter
+                if (currentLetter && v.v1.charAt(0).toLowerCase() !== currentLetter) return false;
+
+                // Text query filter with safety checks
+                if (query) {
+                    const v1Match = v.v1 ? v.v1.toLowerCase().includes(query) : false;
+                    const v2Match = v.v2 ? v.v2.toLowerCase().includes(query) : false;
+                    const v3Match = v.v3 ? v.v3.toLowerCase().includes(query) : false;
+                    const meaningMatch = v.meaning ? v.meaning.toLowerCase().includes(query) : false;
+                    return v1Match || v2Match || v3Match || meaningMatch;
+                }
+
+                return true;
+            });
+
+            // Update verb counter badge
+            counterBadge.innerText = `${filtered.length} کار دۆزرایەوە`;
+
+            // Clear previous elements
+            gridContainer.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                gridContainer.classList.add('hidden');
+                document.getElementById('dictionary-table-wrapper').classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            if (viewMode === 'grid') {
+                gridContainer.classList.remove('hidden');
+                document.getElementById('dictionary-table-wrapper').classList.add('hidden');
+            } else {
+                gridContainer.classList.add('hidden');
+                document.getElementById('dictionary-table-wrapper').classList.remove('hidden');
+            }
+
+            // Generate content
+            filtered.forEach(v => {
+                const isFavorite = favorites.includes(v.v1);
+                const sentences = getVerbSentences(v);
+                
+                // Card for Grid View with support for RTL Sorani meanings & Example sentences
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/80 rounded-2xl border border-slate-800/80 p-5 shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-500/30 transition-all-300 relative flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <!-- Favorite & Type Badges -->
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md ${v.type === 'irregular' ? 'bg-amber-950/50 text-amber-300 border border-amber-900/30' : 'bg-blue-950/50 text-blue-300 border border-blue-900/30'}">
+                                ${v.type === 'irregular' ? 'ناڕێک' : 'ڕێک'}
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="toggleFavorite('${v.v1}')" class="text-slate-500 hover:text-amber-500 transition-transform hover:scale-120 p-1" title="نیشانەکردن">
+                                    <i class="${isFavorite ? 'fas text-amber-500' : 'far'} fa-star text-base"></i>
+                                </button>
+                                ${customVerbs.some(cv => cv.v1 === v.v1) ? `
+                                    <button onclick="deleteCustomVerb('${v.v1}')" class="text-slate-500 hover:text-rose-500 transition-transform hover:scale-120 p-1" title="سڕینەوە">
+                                        <i class="fas fa-trash-alt text-sm"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Verb Info Tenses Grid -->
+                        <div class="grid grid-cols-3 gap-2 text-center py-2 bg-slate-950/70 rounded-xl mb-3 border border-slate-850" dir="ltr">
+                            <!-- V1 -->
+                            <div class="border-r border-slate-800 flex flex-col justify-between h-14">
+                                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Infinitive (V1)</span>
+                                <div class="font-extrabold text-slate-100 text-sm truncate px-1">${v.v1}</div>
+                                <button onclick="speak('${v.v1}')" class="text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors focus:outline-none" title="خوێندنەوەی V1">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                            <!-- V2 -->
+                            <div class="border-r border-slate-800 flex flex-col justify-between h-14">
+                                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Past (V2)</span>
+                                <div class="font-extrabold text-indigo-400 text-sm truncate px-1">${v.v2}</div>
+                                <button onclick="speak('${v.v2}')" class="text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors focus:outline-none" title="خوێندنەوەی V2">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                            <!-- V3 -->
+                            <div class="flex flex-col justify-between h-14">
+                                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">P.P. (V3)</span>
+                                <div class="font-extrabold text-emerald-400 text-sm truncate px-1">${v.v3}</div>
+                                <button onclick="speak('${v.v3}')" class="text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors focus:outline-none" title="خوێندنەوەی V3">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 pt-2 border-t border-slate-800/80 text-right" dir="rtl">
+                        <p class="text-xs text-slate-300 font-sans leading-relaxed">
+                            <strong class="text-indigo-400 font-bold ml-1">واتا:</strong> ${v.meaning || 'هیچ واتا تەرخاننەکراوە'}
+                        </p>
+                        
+                        <!-- Accordion for Example Sentences -->
+                        <button onclick="toggleCardExample(this)" class="mt-3 text-[10px] text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-bold font-sans transition-all focus:outline-none">
+                            <i class="fas fa-chevron-down transition-transform duration-200"></i> نیشاندانی نموونەی ڕستەکان 📝
+                        </button>
+                        <div class="hidden mt-2 p-2.5 bg-slate-950/70 rounded-lg border border-slate-850 space-y-3 text-left" dir="ltr">
+                            <div>
+                                <span class="text-[9px] font-extrabold text-indigo-400 font-mono tracking-wider">Past (V2) Context:</span>
+                                <p class="text-[11px] text-slate-100 font-mono font-semibold mt-0.5">${sentences.s2_en.replace('___', `<span class="text-indigo-400 font-extraboldUnderline">${v.v2.split('/')[0]}</span>`)}</p>
+                                <p class="text-[10px] text-slate-400 font-sans text-right mt-0.5" dir="rtl">${sentences.s2_ku}</p>
+                            </div>
+                            <div class="border-t border-slate-900 pt-2">
+                                <span class="text-[9px] font-extrabold text-emerald-400 font-mono tracking-wider">P.P. (V3) Context:</span>
+                                <p class="text-[11px] text-slate-100 font-mono font-semibold mt-0.5">${sentences.s3_en.replace('___', `<span class="text-emerald-400 font-extraboldUnderline">${v.v3.split('/')[0]}</span>`)}</p>
+                                <p class="text-[10px] text-slate-400 font-sans text-right mt-0.5" dir="rtl">${sentences.s3_ku}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                gridContainer.appendChild(card);
+
+                // Table Row for Table View with RTL support
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-900/60 transition-colors border-b border-slate-800/60 text-xs sm:text-sm text-right";
+                tr.innerHTML = `
+                    <td class="p-4 text-right">
+                        <div class="flex items-center justify-start gap-2" dir="ltr">
+                            <button onclick="speak('${v.v1}')" class="text-indigo-400 hover:text-indigo-300 focus:outline-none" title="خوێندنەوە">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <span class="font-bold text-slate-100">${v.v1}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-right">
+                        <div class="flex items-center justify-start gap-2" dir="ltr">
+                            <button onclick="speak('${v.v2}')" class="text-indigo-400 hover:text-indigo-300 focus:outline-none" title="خوێندنەوە">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <span class="font-semibold text-indigo-400">${v.v2}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-right">
+                        <div class="flex items-center justify-start gap-2" dir="ltr">
+                            <button onclick="speak('${v.v3}')" class="text-indigo-400 hover:text-indigo-300 focus:outline-none" title="خوێندنەوە">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <span class="font-semibold text-emerald-400">${v.v3}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 text-slate-300 font-sans font-medium text-right" dir="rtl">${v.meaning || 'نادیار'}</td>
+                    <td class="p-4 text-center">
+                        <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md ${v.type === 'irregular' ? 'bg-amber-950/50 text-amber-300' : 'bg-blue-950/50 text-blue-300'}">
+                            ${v.type === 'irregular' ? 'ناڕێک' : 'ڕێک'}
+                        </span>
+                    </td>
+                    <td class="p-4">
+                        <div class="flex items-center justify-center gap-3">
+                            <button onclick="toggleFavorite('${v.v1}')" class="text-slate-500 hover:text-amber-500 transition-colors p-1" title="نیشانەکردن">
+                                <i class="${isFavorite ? 'fas text-amber-500' : 'far'} fa-star"></i>
+                            </button>
+                            ${customVerbs.some(cv => cv.v1 === v.v1) ? `
+                                <button onclick="deleteCustomVerb('${v.v1}')" class="text-slate-500 hover:text-rose-500 transition-colors p-1" title="سڕینەوە">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function toggleFavorite(verbV1) {
+            const index = favorites.indexOf(verbV1);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast(`کارەکە "${verbV1}" لە دڵخوازەکان لادرا`, 'fa-star');
+            } else {
+                favorites.push(verbV1);
+                showToast(`کارەکە "${verbV1}" بە سەرکەوتوویی خرایە لیستی دڵخوازەکانتەوە!`, 'fa-star text-amber-400');
+            }
+            localStorage.setItem('favorite_english_verbs', JSON.stringify(favorites));
+            updateStatsCounters();
+            renderVerbs();
+            
+            // Re-init practice settings if user modifies favorites
+            if (currentFilter === 'favorites') {
+                initQuiz();
+            }
+        }
+
+        function deleteCustomVerb(v1) {
+            customVerbs = customVerbs.filter(v => v.v1 !== v1);
+            localStorage.setItem('custom_english_verbs', JSON.stringify(customVerbs));
+            
+            // Re-init dataset
+            initData();
+            buildAlphabetJump();
+            renderVerbs();
+            updateStatsCounters();
+            showToast(`کارەکە "${v1}" سڕدرایەوە`, 'fa-trash');
+        }
+
+        function updateStatsCounters() {
+            document.getElementById('stat-total').innerText = verbs.length;
+            document.getElementById('stat-favorites').innerText = favorites.length;
+            
+            // Get max streak from localStorage
+            const maxStreak = localStorage.getItem('max_verb_streak') || 0;
+            document.getElementById('stat-streak').innerText = `${maxStreak} 🔥`;
+        }
+
+        function switchTab(tabId) {
+            const dictionarySec = document.getElementById('section-dictionary');
+            const trainerSec = document.getElementById('section-trainer');
+            const dictBtn = document.getElementById('tab-btn-dictionary');
+            const trainerBtn = document.getElementById('tab-btn-trainer');
+
+            if (tabId === 'dictionary') {
+                dictionarySec.classList.remove('hidden');
+                trainerSec.classList.add('hidden');
+                
+                // Toggle navbar classes
+                dictBtn.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 bg-indigo-600 text-white shadow-md shadow-indigo-600/20 font-sans";
+                trainerBtn.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 text-slate-400 hover:text-white hover:bg-slate-900 font-sans";
+            } else {
+                trainerSec.classList.remove('hidden');
+                dictionarySec.classList.add('hidden');
+                
+                // Toggle navbar classes
+                trainerBtn.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 bg-indigo-600 text-white shadow-md shadow-indigo-600/20 font-sans";
+                dictBtn.className = "px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all-300 text-slate-400 hover:text-white hover:bg-slate-900 font-sans";
+                
+                // Launch first game card
+                initQuiz();
+            }
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function handleCustomVerbSubmit(event) {
+            event.preventDefault();
+            
+            const v1 = document.getElementById('add-v1').value.trim().toLowerCase();
+            const v2 = document.getElementById('add-v2').value.trim().toLowerCase();
+            const v3 = document.getElementById('add-v3').value.trim().toLowerCase();
+            const type = document.querySelector('input[name="add-type"]:checked').value;
+            const meaning = document.getElementById('add-meaning').value.trim();
+
+            if (!v1 || !v2 || !v3) {
+                showToast("تکایە خانەکانی V1, V2 و V3 پڕبکەرەوە!", "fa-exclamation-triangle");
+                return;
+            }
+
+            // Check if verb already exists
+            const exists = verbs.some(v => v.v1.toLowerCase() === v1.toLowerCase());
+            if (exists) {
+                showToast(`کارەکە "${v1}" پێشتر لە فەرھەنگدا ھەیە!`, "fa-info-circle");
+                return;
+            }
+
+            // Create new entry object
+            const customEntry = { v1, v2, v3, type, meaning };
+            customVerbs.push(customEntry);
+            localStorage.setItem('custom_english_verbs', JSON.stringify(customVerbs));
+
+            // Reload systems
+            initData();
+            buildAlphabetJump();
+            renderVerbs();
+            updateStatsCounters();
+
+            // Reset Form and close modal
+            document.getElementById('add-verb-form').reset();
+            closeModal('addVerbModal');
+            showToast(`کارەکە "${v1}" بە سەرکەوتوویی زیادکرا!`, "fa-check text-emerald-400");
+        }
+
+        // Practice Trainer Gameplay Core
+        function initQuiz() {
+            const poolOption = document.getElementById('quiz-pool-select').value;
+            const quizMode = document.getElementById('quiz-mode-select').value;
+            
+            let activePool = [];
+
+            if (poolOption === 'irregular') {
+                activePool = verbs.filter(v => v.type === 'irregular');
+            } else if (poolOption === 'regular') {
+                activePool = verbs.filter(v => v.type === 'regular');
+            } else if (poolOption === 'favorites') {
+                activePool = verbs.filter(v => favorites.includes(v.v1));
+            } else {
+                activePool = verbs;
+            }
+
+            if (activePool.length === 0) {
+                // Handle empty pool (e.g. no favorites)
+                document.getElementById('quiz-current-verb').innerText = "لیستەکە بەتاڵە";
+                document.getElementById('quiz-current-meaning').innerText = "تکایە لیستێکی تر هەڵبژێرە چونکە هیچ کارێک لەم پاڵاوتنەدا نییە.";
+                document.getElementById('quiz-submit-btn').disabled = true;
+                return;
+            }
+
+            document.getElementById('quiz-submit-btn').disabled = false;
+
+            // Select a random verb
+            const randomIndex = Math.floor(Math.random() * activePool.length);
+            currentQuizVerb = activePool[randomIndex];
+
+            // Render current verb target
+            document.getElementById('quiz-current-verb').innerText = currentQuizVerb.v1;
+            document.getElementById('quiz-current-meaning').innerHTML = currentQuizVerb.meaning ? `<strong>واتا بە کوردی:</strong> ${currentQuizVerb.meaning}` : 'واتا: دیارینەکراوە';
+            
+            // Set type tag
+            const typeBadge = document.getElementById('quiz-verb-type');
+            typeBadge.innerText = currentQuizVerb.type === 'irregular' ? 'ناڕێک' : 'ڕێک';
+            if (currentQuizVerb.type === 'irregular') {
+                typeBadge.className = "absolute top-3 left-3 px-2 py-0.5 rounded bg-amber-950/50 text-amber-300 text-[10px] font-extrabold uppercase tracking-wide border border-amber-900/30";
+            } else {
+                typeBadge.className = "absolute top-3 left-3 px-2 py-0.5 rounded bg-blue-950/50 text-blue-300 text-[10px] font-extrabold uppercase tracking-wide border border-blue-900/30";
+            }
+
+            // Adjust layout based on Quiz Mode (Word vs Grammar Sentence)
+            const grammarSentenceBox = document.getElementById('quiz-grammar-sentence-box');
+            const v2Wrapper = document.getElementById('v2-input-wrapper');
+            const v3Wrapper = document.getElementById('v3-input-wrapper');
+
+            if (quizMode === 'grammar') {
+                grammarSentenceBox.classList.remove('hidden');
+                
+                // Randomly decide to quiz V2 or V3 sentence
+                currentQuizTargetTense = Math.random() < 0.5 ? 'v2' : 'v3';
+                const sentences = getVerbSentences(currentQuizVerb);
+
+                if (currentQuizTargetTense === 'v2') {
+                    // Quiz on V2
+                    document.getElementById('quiz-grammar-sentence-en').innerText = sentences.s2_en;
+                    document.getElementById('quiz-grammar-sentence-ku').innerText = sentences.s2_ku;
+                    
+                    v2Wrapper.classList.remove('hidden');
+                    v3Wrapper.classList.add('hidden'); // Hide V3 input
+                } else {
+                    // Quiz on V3
+                    document.getElementById('quiz-grammar-sentence-en').innerText = sentences.s3_en;
+                    document.getElementById('quiz-grammar-sentence-ku').innerText = sentences.s3_ku;
+                    
+                    v2Wrapper.classList.add('hidden'); // Hide V2 input
+                    v3Wrapper.classList.remove('hidden');
+                }
+            } else {
+                // Standard mode
+                grammarSentenceBox.classList.add('hidden');
+                currentQuizTargetTense = 'both';
+                v2Wrapper.classList.remove('hidden');
+                v3Wrapper.classList.remove('hidden');
+            }
+
+            // Reset user input fields
+            document.getElementById('quiz-input-v2').value = '';
+            document.getElementById('quiz-input-v3').value = '';
+            document.getElementById('quiz-input-v2').disabled = false;
+            document.getElementById('quiz-input-v3').disabled = false;
+            document.getElementById('quiz-input-v2').className = "w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none font-medium text-white placeholder-slate-500";
+            document.getElementById('quiz-input-v3').className = "w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none font-medium text-white placeholder-slate-500";
+
+            // Reset validation states
+            document.getElementById('v2-feedback').classList.add('hidden');
+            document.getElementById('v3-feedback').classList.add('hidden');
+            document.getElementById('quiz-result-board').classList.add('hidden');
+            document.getElementById('quiz-hint-box').classList.add('hidden');
+            
+            // Switch primary CTA button back to standard Check Answer
+            const submitBtn = document.getElementById('quiz-submit-btn');
+            submitBtn.innerHTML = `وەڵامەکەم تاقی بکەرەوە <i class="fas fa-check-circle ml-2"></i>`;
+            submitBtn.className = "flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-xl transition-all-300 shadow-lg shadow-indigo-600/30 text-sm sm:text-base font-sans";
+            submitBtn.onclick = checkQuizAnswer;
+        }
+
+        function playQuizVerbAudio() {
+            if (currentQuizVerb) {
+                speak(currentQuizVerb.v1);
+            }
+        }
+
+        function revealHint() {
+            if (!currentQuizVerb) return;
+
+            // Generate simple helpful hint (e.g., first and last letters or length)
+            const getHintString = (str) => {
+                const parts = str.split('/');
+                return parts.map(p => {
+                    if (p.length <= 2) return `${p.charAt(0)}...`;
+                    return `${p.charAt(0)}${"_ ".repeat(p.length - 2)}${p.charAt(p.length - 1)}`;
+                }).join(' / ');
+            };
+
+            const hintBox = document.getElementById('quiz-hint-box');
+            document.getElementById('quiz-hint-v2-text').innerHTML = `<strong>ڕێبەری V2:</strong> پیتی یەکەم و کۆتایی: <span class="font-mono text-xs font-bold text-indigo-400">${getHintString(currentQuizVerb.v2)}</span> (${currentQuizVerb.v2.length} پیت)`;
+            document.getElementById('quiz-hint-v3-text').innerHTML = `<strong>ڕێبەری V3:</strong> پیتی یەکەم و کۆتایی: <span class="font-mono text-xs font-bold text-indigo-400">${getHintString(currentQuizVerb.v3)}</span> (${currentQuizVerb.v3.length} پیت)`;
+            
+            hintBox.classList.remove('hidden');
+        }
+
+        function checkQuizAnswer() {
+            if (!currentQuizVerb) return;
+
+            const inputV2 = document.getElementById('quiz-input-v2').value.trim();
+            const inputV3 = document.getElementById('quiz-input-v3').value.trim();
+            const caseSensitive = document.getElementById('quiz-case-select').value === 'yes';
+            const quizMode = document.getElementById('quiz-mode-select').value;
+
+            // Validating inputs based on the target tested fields
+            if (quizMode === 'grammar') {
+                if (currentQuizTargetTense === 'v2' && !inputV2) {
+                    showToast("تکایە خانەی V2 پڕ بکەرەوە بۆ تەواوکردنی ڕستەکە!", "fa-exclamation-triangle");
+                    return;
+                }
+                if (currentQuizTargetTense === 'v3' && !inputV3) {
+                    showToast("تکایە خانەی V3 پڕ بکەرەوە بۆ تەواوکردنی ڕستەکە!", "fa-exclamation-triangle");
+                    return;
+                }
+            } else {
+                if (!inputV2 || !inputV3) {
+                    showToast("تکایە هەردوو خانەی V2 و V3 پڕ بکەرەوە پێش پشکنین!", "fa-exclamation-triangle");
+                    return;
+                }
+            }
+
+            // Validation logic check
+            const matches = (userInput, correctForm) => {
+                // Some irregular verbs have alternate correct forms like 'was/were' or 'got/gotten'
+                const alternatives = correctForm.split('/').map(alt => alt.trim());
+                return alternatives.some(alt => {
+                    if (caseSensitive) {
+                        return userInput === alt;
+                    } else {
+                        return userInput.toLowerCase() === alt.toLowerCase();
+                    }
+                });
+            };
+
+            let isV2Correct = true;
+            let isV3Correct = true;
+
+            const v2Field = document.getElementById('quiz-input-v2');
+            const v3Field = document.getElementById('quiz-input-v3');
+            const v2Feedback = document.getElementById('v2-feedback');
+            const v3Feedback = document.getElementById('v3-feedback');
+
+            if (currentQuizTargetTense === 'v2' || currentQuizTargetTense === 'both') {
+                isV2Correct = matches(inputV2, currentQuizVerb.v2);
+                v2Feedback.classList.remove('hidden');
+                if (isV2Correct) {
+                    v2Field.className = "w-full px-4 py-3 bg-emerald-950/40 border border-emerald-500 rounded-xl transition-all text-sm outline-none font-medium text-emerald-300 pr-10";
+                    v2Feedback.innerHTML = `<i class="fas fa-check-circle text-emerald-500"></i>`;
+                } else {
+                    v2Field.className = "w-full px-4 py-3 bg-rose-950/40 border border-rose-500 rounded-xl transition-all text-sm outline-none font-medium text-rose-300 pr-10";
+                    v2Feedback.innerHTML = `<i class="fas fa-times-circle text-rose-500"></i>`;
+                }
+            }
+
+            if (currentQuizTargetTense === 'v3' || currentQuizTargetTense === 'both') {
+                isV3Correct = matches(inputV3, currentQuizVerb.v3);
+                v3Feedback.classList.remove('hidden');
+                if (isV3Correct) {
+                    v3Field.className = "w-full px-4 py-3 bg-emerald-950/40 border border-emerald-500 rounded-xl transition-all text-sm outline-none font-medium text-emerald-300 pr-10";
+                    v3Feedback.innerHTML = `<i class="fas fa-check-circle text-emerald-500"></i>`;
+                } else {
+                    v3Field.className = "w-full px-4 py-3 bg-rose-950/40 border border-rose-500 rounded-xl transition-all text-sm outline-none font-medium text-rose-300 pr-10";
+                    v3Feedback.innerHTML = `<i class="fas fa-times-circle text-rose-500"></i>`;
+                }
+            }
+
+            // Disable further edit during validation stage
+            v2Field.disabled = true;
+            v3Field.disabled = true;
+
+            // Process results banner
+            const resultBoard = document.getElementById('quiz-result-board');
+            const resultIcon = document.getElementById('result-status-icon');
+            const resultTitle = document.getElementById('result-status-title');
+
+            document.getElementById('correct-v1').innerText = currentQuizVerb.v1;
+            document.getElementById('correct-v2').innerText = currentQuizVerb.v2;
+            document.getElementById('correct-v3').innerText = currentQuizVerb.v3;
+
+            resultBoard.classList.remove('hidden');
+
+            const totalScoreCorrect = isV2Correct && isV3Correct;
+
+            if (totalScoreCorrect) {
+                streak++;
+                correctAnswersCount++;
+                
+                // Track max streak
+                const currentMax = parseInt(localStorage.getItem('max_verb_streak') || 0);
+                if (streak > currentMax) {
+                    localStorage.setItem('max_verb_streak', streak);
+                    updateStatsCounters();
+                }
+
+                resultBoard.className = "border border-emerald-800 bg-emerald-950/40 rounded-2xl p-4 transition-all-300";
+                resultIcon.innerHTML = "🎉";
+                resultTitle.className = "font-extrabold text-sm text-emerald-400 font-sans";
+                resultTitle.innerText = quizMode === 'grammar' ? "نایابە! ڕستەکەت بە تەواوی ڕاست پڕکردەوە!" : "نایابە! هەردوو وەڵامەکە بە تەواوی ڕاستن!";
+                
+                speak("Excellent!");
+            } else {
+                streak = 0; // Reset streak on incorrect answer
+                
+                resultBoard.className = "border border-rose-800 bg-rose-950/40 rounded-2xl p-4 transition-all-300";
+                resultIcon.innerHTML = "💡";
+                resultTitle.className = "font-extrabold text-sm text-rose-400 font-sans";
+                resultTitle.innerText = quizMode === 'grammar' ? "وەڵامەکەت هەڵەیە! سەیری شێوازی ڕاستی ڕستەکە بکە:" : "کەمێک پێویستت بە مەشقە! سەیری شێوازی ڕاست بکە:";
+            }
+
+            // If in grammar mode, reveal completed sentence in results block
+            const resultDetails = document.getElementById('quiz-result-details');
+            if (quizMode === 'grammar') {
+                const sentences = getVerbSentences(currentQuizVerb);
+                const completedS2 = sentences.s2_en.replace('___', `<span class="text-indigo-400 font-bold underline">${currentQuizVerb.v2.split('/')[0]}</span>`);
+                const completedS3 = sentences.s3_en.replace('___', `<span class="text-emerald-400 font-bold underline">${currentQuizVerb.v3.split('/')[0]}</span>`);
+                
+                resultDetails.innerHTML = `
+                    <p class="font-sans text-slate-400 mb-2">ڕستەی تەواوکراوی گرامەری بە دروستی:</p>
+                    <div class="p-3 bg-slate-950/80 rounded-xl border border-slate-900 text-left mb-2" dir="ltr">
+                        <p class="text-xs sm:text-sm font-mono text-white font-bold">${currentQuizTargetTense === 'v2' ? completedS2 : completedS3}</p>
+                    </div>
+                    <p class="font-sans text-slate-300">واتاکەی بە کوردی: <strong class="text-indigo-300">${currentQuizTargetTense === 'v2' ? sentences.s2_ku : sentences.s3_ku}</strong></p>
+                `;
+            } else {
+                // Restore standard word modes detail view
+                resultDetails.innerHTML = `
+                    <p class="font-sans">وەڵامی ڕاست لێرەیە:</p>
+                    <p class="font-semibold text-slate-300 font-sans">چاوگ (V1): <span id="correct-v1" class="text-indigo-400 font-mono">${currentQuizVerb.v1}</span></p>
+                    <p class="font-semibold text-slate-300 font-sans">ڕابردووی سادە (V2): <span id="correct-v2" class="text-indigo-400 font-mono">${currentQuizVerb.v2}</span></p>
+                    <p class="font-semibold text-slate-300 font-sans">ڕابردووی تەواو (V3): <span id="correct-v3" class="text-indigo-400 font-mono">${currentQuizVerb.v3}</span></p>
+                `;
+            }
+
+            // Update streak and correct score displays
+            document.getElementById('quiz-current-streak').innerText = streak;
+            document.getElementById('quiz-score-display').innerText = `${correctAnswersCount} ڕاست`;
+
+            // Change CTA to "Next Verb" trigger
+            const submitBtn = document.getElementById('quiz-submit-btn');
+            submitBtn.innerHTML = `کاری داهاتوو <i class="fas fa-arrow-right ml-2"></i>`;
+            submitBtn.className = "flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-xl transition-all-300 shadow-lg shadow-emerald-600/30 text-sm sm:text-base font-sans";
+            submitBtn.onclick = initQuiz;
+        }
+
+        function skipQuizVerb() {
+            streak = 0; // reset active correct streak
+            document.getElementById('quiz-current-streak').innerText = streak;
+            initQuiz();
+            showToast("کارەکە پەڕێندرا!", "fa-forward");
+        }
+
+        // Responsive custom non-alert Toast Notification system
+        function showToast(message, iconClass = "fa-info-circle") {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toast-icon');
+            const toastMsg = document.getElementById('toast-message');
+
+            toastIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
+            toastMsg.innerText = message;
+
+            // Remove previous classes
+            toast.className = "fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 transition-all duration-300 flex items-center gap-3 bg-slate-900 border border-slate-800 text-white px-5 py-3 rounded-xl shadow-2xl max-w-sm pointer-events-auto font-sans";
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.className = "fixed bottom-5 right-5 z-50 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 bg-slate-900 border border-slate-800 text-white px-5 py-3 rounded-xl shadow-2xl max-w-sm font-sans";
+            }, 3000);
+        }
+
+        // Filtering Trigger Handler for Instant search
+        function filterVerbs() {
+            // Automatically clear the letter jump filter when starting to type a search query
+            if (document.getElementById('search-input').value.trim() !== '') {
+                currentLetter = '';
+                buildAlphabetJump(); // refresh letter badges to clear highlights
+            }
+            renderVerbs();
+        }
+    </script>
+</body>
+</html>
